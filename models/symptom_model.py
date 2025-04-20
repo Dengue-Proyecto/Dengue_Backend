@@ -2,6 +2,9 @@ from pydantic import BaseModel
 
 # Modelo para los síntomas del dengue
 class SymptomForm(BaseModel):
+    edad: str
+    genero: str
+    dias_de_fiebre: int
     dolor_cabeza_severo: bool
     dolor_detras_ojos: bool
     dolor_articular_muscular: bool
