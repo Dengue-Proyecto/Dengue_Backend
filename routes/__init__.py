@@ -1,1 +1,0 @@
-from .sypmtom_routes import router as symptom_router

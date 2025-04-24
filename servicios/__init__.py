@@ -1,0 +1,1 @@
+from .servicio_riesgo import calcular_riesgo

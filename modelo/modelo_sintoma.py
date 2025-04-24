@@ -13,7 +13,3 @@ class FormularioSintomas(BaseModel):
     dolor_abdominal: bool
     nauseas_vomitos: bool
     diarrea: bool
-
-    class Config:
-        # Configuración para que los datos booleanos sean validados como 'true'/'false'
-        use_enum_values = True

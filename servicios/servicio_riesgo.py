@@ -1,11 +1,9 @@
-from models import FormularioSintomas
-import joblib
-
-# Cargar el modelo previamente entrenado (modelo_binario_dengue.pkl)
-modelo = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/modelo_binario_dengue.pkl')
+from modelo import FormularioSintomas
+from utilidades import get_modelo
 
 # Función para calcular el riesgo de dengue
 def calcular_riesgo(sintomas: FormularioSintomas):
+    modelo = get_modelo()
     # Convertir los síntomas del formulario en una lista de valores 0 y 1
     datos = [
         sintomas.dias_de_fiebre,

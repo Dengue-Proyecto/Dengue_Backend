@@ -1,0 +1,1 @@
+from .rutas_sintoma import router as symptom_router
