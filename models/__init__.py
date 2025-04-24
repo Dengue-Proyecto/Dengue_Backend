@@ -1,0 +1,1 @@
+from .symptom_model import FormularioSintomas

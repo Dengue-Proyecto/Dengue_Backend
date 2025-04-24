@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 # Modelo para los síntomas del dengue
-class SymptomForm(BaseModel):
+class FormularioSintomas(BaseModel):
     edad: str
     genero: str
     dias_de_fiebre: int

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes.sypmtom_routes import router as symptom_router
+from routes import symptom_router
 
 app = FastAPI()
 
@@ -17,7 +17,6 @@ app.add_middleware(
     allow_methods=["*"],  # Permitir todos los métodos (GET, POST, PUT, DELETE)
     allow_headers=["*"],  # Permitir todos los encabezados
 )
-
 @app.get("/")
 async def root():
     return {"message": "Hola, Bienvenido a la API que valorará tu riesgo de dengue"}
