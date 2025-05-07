@@ -4,8 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="&quot;Core del Proyecto&quot;">
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="&quot;Modelo SVM&quot;">
+      <change afterPath="$PROJECT_DIR$/modeloML/modeloSVM.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modeloML/Dengue-worldwide-dataset-modified-es-project-ml.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/modeloML/Dengue-worldwide-dataset-modified-es-project.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/modeloML/Dengue-worldwide-dataset-modified-es.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/modeloML/modelo.ipynb" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +49,6 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2vlsbykhLwZQyLC8QNMbrb69C5j" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -57,15 +61,25 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\angel\PycharmProjects\Dengue_Backend\modeloML" />
+      <recent name="C:\Users\angel\PycharmProjects\Dengue_Backend\modelo" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\angel\PycharmProjects\Dengue_Backend\modeloML" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Dengue_Backend" type="Python.FastAPI">
       <option name="file" value="$PROJECT_DIR$/main.py" />
@@ -86,8 +100,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
-        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-PY-251.25410.122" />
+        <option value="bundled-python-sdk-880ecab49056-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.122" />
       </set>
     </attachedChunks>
   </component>
@@ -111,6 +125,12 @@
       <workItem from="1745722283008" duration="42000" />
       <workItem from="1746031769845" duration="4034000" />
       <workItem from="1746039218817" duration="1129000" />
+      <workItem from="1746510416343" duration="902000" />
+      <workItem from="1746585012718" duration="4379000" />
+      <workItem from="1746801849514" duration="707000" />
+      <workItem from="1746803334276" duration="15369000" />
+      <workItem from="1746841787470" duration="21555000" />
+      <workItem from="1746910416672" duration="1388000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
