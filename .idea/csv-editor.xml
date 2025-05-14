@@ -3,13 +3,6 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="\modeloML\Dengue-worldwide-dataset-modified-es-project-ml.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\modeloML\Dengue-worldwide-dataset-modified-es-project.csv">
           <value>
             <Attribute>

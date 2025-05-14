@@ -4,20 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Modelo SVM + 4 kernels">
-      <change afterPath="$PROJECT_DIR$/modeloML/Dengue-worldwide-dataset-modified-es-project.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modeloML/dengueSintomas_Back.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modeloML/modeloSVM3.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modeloML/modeloSVM4_.ipynb" afterDir="false" />
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Modelo SVM 4 kernels Valoración">
       <change beforePath="$PROJECT_DIR$/.idea/csv-editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modeloSVM.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/modeloSVM.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modeloSVM2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/modeloSVM2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modelo_binario_dengue.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/preprocesamiento.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/preprocesamiento.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rutas/rutas_sintoma.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/rutas_sintoma.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/servicios/servicio_riesgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_riesgo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilidades/utilidades.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/utilidades.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +131,8 @@
       <workItem from="1746910416672" duration="32244000" />
       <workItem from="1746945139030" duration="4505000" />
       <workItem from="1747174288203" duration="85000" />
-      <workItem from="1747174404924" duration="28692000" />
+      <workItem from="1747174404924" duration="28973000" />
+      <workItem from="1747231950151" duration="8510000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -175,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746912586029</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Modelo SVM 4 kernels Valoración">
+      <option name="closed" value="true" />
+      <created>1747204785098</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1747204785098</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,9 +185,10 @@
     <MESSAGE value="&quot;Modelo SVM&quot;" />
     <MESSAGE value="Modelo SVM" />
     <MESSAGE value="Modelo SVM + 4 kernels" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modelo SVM + 4 kernels" />
+    <MESSAGE value="Modelo SVM 4 kernels Valoración" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modelo SVM 4 kernels Valoración" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1747204683578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1747236811104" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

@@ -2,7 +2,6 @@ from modelo import FormularioSintomas
 from utilidades import get_modelo
 import pandas as pd
 
-
 def calcular_riesgo(sintomas: FormularioSintomas):
     modelo = get_modelo()  # Cargar los modelos
     # Convertir los síntomas del formulario en una lista de valores 0 y 1
@@ -30,8 +29,6 @@ def calcular_riesgo(sintomas: FormularioSintomas):
         "nauseas_vomitos",
         "diarrea"
     ])
-
-    print(df_datos.columns)  # Ver el orden de las columnas
 
     # Realizar la predicción usando el modelo
     probabilidad_lineal = modelo["svm_linear"].predict_proba(df_datos)[0][1]
@@ -62,6 +59,13 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     riesgo_sigmoid = convertir_riesgo(probabilidad_sigmoid)
     riesgo_random_forest = convertir_riesgo(probabilidad_random_forest)
 
+    # Convertir las probabilidades a porcentaje
+    probabilidad_lineal_pct = round(probabilidad_lineal * 100, 2)
+    probabilidad_poli_pct = round(probabilidad_poli * 100, 2)
+    probabilidad_rbf_pct = round(probabilidad_rbf * 100, 2)
+    probabilidad_sigmoid_pct = round(probabilidad_sigmoid * 100, 2)
+    probabilidad_random_forest_pct = round(probabilidad_random_forest * 100, 2)
+
     # Devolver los riesgos
     return {
         "riesgo_lineal": riesgo_lineal,
@@ -69,4 +73,9 @@ def calcular_riesgo(sintomas: FormularioSintomas):
         "riesgo_rbf": riesgo_rbf,
         "riesgo_sigmoid": riesgo_sigmoid,
         "riesgo_random_forest": riesgo_random_forest,
+        "probabilidad_lineal_pct": probabilidad_lineal_pct,
+        "probabilidad_poli_pct": probabilidad_poli_pct,
+        "probabilidad_rbf_pct": probabilidad_rbf_pct,
+        "probabilidad_sigmoid_pct": probabilidad_sigmoid_pct,
+        "probabilidad_random_forest_pct": probabilidad_random_forest_pct
     }
