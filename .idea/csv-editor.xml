@@ -17,7 +17,14 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\modeloML\Dengue-worldwide-dataset-modified-es.csv">
+        <entry key="\modeloML\dengueSintomas.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\modeloML\dengueSintomas_Back.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
