@@ -1,9 +1,11 @@
 from modelo import FormularioSintomas
 from utilidades import get_modelo
+from utilidades import get_metricas
 import pandas as pd
 
 def calcular_riesgo(sintomas: FormularioSintomas):
     modelo = get_modelo()  # Cargar los modelos
+    metricas = get_metricas() # Cargar las métricas
     # Convertir los síntomas del formulario en una lista de valores 0 y 1
     datos = [
         sintomas.dias_de_fiebre,
@@ -66,6 +68,25 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     probabilidad_sigmoid_pct = round(probabilidad_sigmoid * 100, 2)
     probabilidad_random_forest_pct = round(probabilidad_random_forest * 100, 2)
 
+    # Convertir las métricas en porcentaje excepto prediction_time
+    metricas_pct = {}
+    for modelo, met in metricas.items():
+        metricas_pct[modelo] = {
+            "accuracy": round(met["accuracy"] * 100, 2),
+            "auc_roc": round(met["auc_roc"] * 100, 2),
+            "recall": round(met["recall"] * 100, 2),
+            "specificity": round(met["specificity"] * 100, 2),
+            "fpr": round(met["fpr"] * 100, 2),
+            "f1_score": round(met["f1_score"] * 100, 2),
+            "prediction_time": met["prediction_time"]
+        }
+
+    # Calcular promedios generales
+    n = len(metricas_pct)
+    precision_promedio = round(sum(m["accuracy"] for m in metricas_pct.values()) / n, 2)
+    recall_promedio = round(sum(m["recall"] for m in metricas_pct.values()) / n, 2)
+    tiempo_promedio = round(sum(m["prediction_time"] for m in metricas_pct.values()) / n, 4)
+
     # Devolver los riesgos
     return {
         "riesgo_lineal": riesgo_lineal,
@@ -77,5 +98,9 @@ def calcular_riesgo(sintomas: FormularioSintomas):
         "probabilidad_poli_pct": probabilidad_poli_pct,
         "probabilidad_rbf_pct": probabilidad_rbf_pct,
         "probabilidad_sigmoid_pct": probabilidad_sigmoid_pct,
-        "probabilidad_random_forest_pct": probabilidad_random_forest_pct
+        "probabilidad_random_forest_pct": probabilidad_random_forest_pct,
+        "metricas": metricas_pct,
+        "precision_promedio": precision_promedio,
+        "recall_promedio": recall_promedio,
+        "tiempo_promedio": tiempo_promedio,
     }
