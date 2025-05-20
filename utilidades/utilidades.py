@@ -11,6 +11,10 @@ forest = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/mod
 # Ruta al archivo JSON con métricas
 ruta_metricas = 'C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/metricas_modelos.json'
 
+#Cargar Scaler y PCA
+scaler = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/scaler.pkl')
+pca = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/pca.pkl')
+
 # Función para acceder al modelo
 def get_modelo():
     return {
@@ -20,6 +24,9 @@ def get_modelo():
         "svm_sigmoid": svm_sigmoid,
         "random_forest": forest,
     }
+
+def get_preprocesadores():
+    return scaler, pca
 
 # Función para acceder a las métricas
 def get_metricas():

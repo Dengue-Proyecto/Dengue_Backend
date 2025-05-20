@@ -3,7 +3,14 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="\modeloML\Dengue-worldwide-dataset-modified-es-project.csv">
+        <entry key="C:\Users\angel\Downloads\Dengue-worldwide-dataset-modified-es-project-ml.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="D:\Proyecto\Dengue-worldwide-dataset-modified-es-project-ml.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
@@ -11,13 +18,6 @@
           </value>
         </entry>
         <entry key="\modeloML\dengueSintomas.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="\modeloML\dengueSintomas_Back.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

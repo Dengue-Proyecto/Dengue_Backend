@@ -1,11 +1,13 @@
 from modelo import FormularioSintomas
 from utilidades import get_modelo
 from utilidades import get_metricas
+from utilidades import get_preprocesadores
 import pandas as pd
 
 def calcular_riesgo(sintomas: FormularioSintomas):
     modelo = get_modelo()  # Cargar los modelos
     metricas = get_metricas() # Cargar las métricas
+    scaler, pca = get_preprocesadores()  # Cargar los preprocesadores
     # Convertir los síntomas del formulario en una lista de valores 0 y 1
     datos = [
         sintomas.dias_de_fiebre,
@@ -32,12 +34,29 @@ def calcular_riesgo(sintomas: FormularioSintomas):
         "diarrea"
     ])
 
+    # Separar numéricas y no numéricas igual que en entrenamiento
+    columnas_numericas = ['dias_con_fiebre']
+    columnas_no_numericas = ['dolor_cabeza_severo', 'dolor_detras_ojos', 'dolor_articular_muscular',
+                             'sabor_metalico_boca', 'perdida_apetito', 'dolor_abdominal',
+                             'nauseas_vomitos', 'diarrea']
+
+    # 1. Escalar solo las columnas numéricas (usar el scaler cargado)
+    df_datos[columnas_numericas] = scaler.transform(df_datos[columnas_numericas])
+
+    # 2. Aplicar PCA a todas las columnas (numéricas + no numéricas)
+    columnas_completas = columnas_numericas + columnas_no_numericas
+    datos_pca = pca.transform(df_datos[columnas_completas])
+
+    # Convertir a DataFrame para pasar al modelo
+    df_pca = pd.DataFrame(datos_pca, columns=[f'Componente {i+1}' for i in range(datos_pca.shape[1])])
+
     # Realizar la predicción usando el modelo
-    probabilidad_lineal = modelo["svm_linear"].predict_proba(df_datos)[0][1]
-    probabilidad_poli = modelo["svm_poly"].predict_proba(df_datos)[0][1]
-    probabilidad_rbf = modelo["svm_rbf"].predict_proba(df_datos)[0][1]
-    probabilidad_sigmoid = modelo["svm_sigmoid"].predict_proba(df_datos)[0][1]
+    probabilidad_lineal = modelo["svm_linear"].predict_proba(df_pca)[0][1]
+    probabilidad_poli = modelo["svm_poly"].predict_proba(df_pca)[0][1]
+    probabilidad_rbf = modelo["svm_rbf"].predict_proba(df_pca)[0][1]
+    probabilidad_sigmoid = modelo["svm_sigmoid"].predict_proba(df_pca)[0][1]
     probabilidad_random_forest = modelo["random_forest"].predict_proba(df_datos)[0][1]
+
 
     print(probabilidad_lineal)
     print(probabilidad_poli)
