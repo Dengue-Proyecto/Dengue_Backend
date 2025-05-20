@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="METRICAS SVM + RF">
-      <change afterPath="$PROJECT_DIR$/modeloML/Dengue-worldwide-dataset-modified-es-project-ml.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/modeloML/modeloSVM2.1.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/csv-editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/csv-editor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/metricas_modelos.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/modeloML/modeloRF.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/modeloRF.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modeloSVM.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modeloSVM2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/modeloSVM2.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modeloSVM3.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modelo_svm_lineal_ajustado.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modelo_svm_poli_ajustado.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modelo_svm_rbf_ajustado.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modelo_svm_sigmoide_ajustado.pkl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/servicios/servicio_riesgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_riesgo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilidades/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilidades/utilidades.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/utilidades.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +134,7 @@
       <workItem from="1747231950151" duration="17287000" />
       <workItem from="1747586948662" duration="123000" />
       <workItem from="1747587163313" duration="17688000" />
-      <workItem from="1747707144572" duration="11975000" />
+      <workItem from="1747707144572" duration="12780000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -206,7 +192,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747627592994</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="METRICAS SVM + RF">
+      <option name="closed" value="true" />
+      <created>1747719570531</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1747719570531</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -223,6 +217,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="METRICAS SVM + RF" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1747718972847" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1747719686467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
