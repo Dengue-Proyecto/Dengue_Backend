@@ -1,0 +1,57 @@
+name: CI / CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Usamos Ubuntu para ejecutar el flujo de trabajo
+
+    steps:
+    # 1. Verificar el código fuente
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        ref: main  # Asegúrate de que estás en la rama correcta
+
+    # 2. Desplegar la imagen Docker directamente en EC2
+    - name: Deploy to EC2 via SSH
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          port: 22
+          script: |
+            sudo su
+            cd /home/ubuntu/
+
+            if [ ! -d "Dengue_Backend" ]; then
+              git clone https://github.com/Dengue-Proyecto/Dengue_Backend.git Dengue_Backend
+            else
+              cd Dengue_Backend
+              git reset --hard
+              git pull
+              cd ..
+            fi
+
+            cd Dengue_Backend
+
+            # Crear entorno virtual si no existe
+            if [ ! -d "venv" ]; then
+              python3 -m venv venv
+            fi
+
+            # Activar entorno virtual y actualizar pip
+            source venv/bin/activate
+            pip install --upgrade pip
+
+            # Instalar dependencias
+            pip install -r requirements.txt
+            if screen -list | grep -q "\.dengue"; then
+              echo "Screen 'dengue' existe, se cerrará..."
+              screen -S dengue -X quit
+            fi
+            screen -dmS dengue bash -c "source venv/bin/activate && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"

@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="actualizacion de rutas">
-      <change afterPath="$PROJECT_DIR$/modeloML/modeloXGboost.ipynb" afterDir="false" />
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Modelo XGbosst">
+      <change afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/metricas_modelos.json" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/metricas_modelos.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modeloML/modeloRF.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/modeloRF.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/servicios/servicio_riesgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_riesgo.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilidades/utilidades.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/utilidades.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +137,7 @@
       <workItem from="1747586948662" duration="123000" />
       <workItem from="1747587163313" duration="17688000" />
       <workItem from="1747707144572" duration="13196000" />
-      <workItem from="1747779302134" duration="19149000" />
+      <workItem from="1747779302134" duration="19901000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -230,7 +227,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747787537579</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Modelo XGbosst">
+      <option name="closed" value="true" />
+      <created>1747805536670</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1747805536670</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -246,7 +251,8 @@
     <MESSAGE value="METRICAS SVM + RF" />
     <MESSAGE value="Requeriments" />
     <MESSAGE value="actualizacion de rutas" />
-    <option name="LAST_COMMIT_MESSAGE" value="actualizacion de rutas" />
+    <MESSAGE value="Modelo XGbosst" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modelo XGbosst" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1747805234925" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
