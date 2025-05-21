@@ -7,7 +7,7 @@ app = FastAPI()
 # Configuración de CORS
 origins = [
     "http://localhost:4200",  # Frontend en Angular (puerto por defecto)
-    "https://your-frontend-url.com",  # URL de tu frontend si está desplegado en producción
+    "https://riesgodengue.netlify.app",  # URL de tu frontend si está desplegado en producción
 ]
 
 app.add_middleware(
