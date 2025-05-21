@@ -24,6 +24,7 @@ xgboost = joblib.load(ruta_modelos / 'modelo_xgboost_ajustado.pkl')
 scaler = joblib.load(ruta_modelos / 'scaler.pkl')
 pca = joblib.load(ruta_modelos / 'pca.pkl')
 
+
 # Función para acceder al modelo
 def get_modelo():
     return {
