@@ -56,6 +56,7 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     probabilidad_rbf = modelo["svm_rbf"].predict_proba(df_pca)[0][1]
     probabilidad_sigmoid = modelo["svm_sigmoid"].predict_proba(df_pca)[0][1]
     probabilidad_random_forest = modelo["random_forest"].predict_proba(df_datos)[0][1]
+    probabilidad_xgboost = float(modelo["xgboost"].predict_proba(df_datos)[0][1])
 
 
     print(probabilidad_lineal)
@@ -63,6 +64,7 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     print(probabilidad_rbf)
     print(probabilidad_sigmoid)
     print(probabilidad_random_forest)
+    print(probabilidad_xgboost)
 
     # Función para convertir la probabilidad a clasificación de riesgo
     def convertir_riesgo(prob):
@@ -79,6 +81,7 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     riesgo_rbf = convertir_riesgo(probabilidad_rbf)
     riesgo_sigmoid = convertir_riesgo(probabilidad_sigmoid)
     riesgo_random_forest = convertir_riesgo(probabilidad_random_forest)
+    riesgo_xgboost = convertir_riesgo(probabilidad_xgboost)
 
     # Convertir las probabilidades a porcentaje
     probabilidad_lineal_pct = round(probabilidad_lineal * 100, 2)
@@ -86,6 +89,7 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     probabilidad_rbf_pct = round(probabilidad_rbf * 100, 2)
     probabilidad_sigmoid_pct = round(probabilidad_sigmoid * 100, 2)
     probabilidad_random_forest_pct = round(probabilidad_random_forest * 100, 2)
+    probabilidad_xgboost_pct = round(probabilidad_xgboost * 100, 2)
 
     # Convertir las métricas en porcentaje excepto prediction_time
     metricas_pct = {}
@@ -113,11 +117,13 @@ def calcular_riesgo(sintomas: FormularioSintomas):
         "riesgo_rbf": riesgo_rbf,
         "riesgo_sigmoid": riesgo_sigmoid,
         "riesgo_random_forest": riesgo_random_forest,
+        "riesgo_xgboost": riesgo_xgboost,
         "probabilidad_lineal_pct": probabilidad_lineal_pct,
         "probabilidad_poli_pct": probabilidad_poli_pct,
         "probabilidad_rbf_pct": probabilidad_rbf_pct,
         "probabilidad_sigmoid_pct": probabilidad_sigmoid_pct,
         "probabilidad_random_forest_pct": probabilidad_random_forest_pct,
+        "probabilidad_xgboost_pct": probabilidad_xgboost_pct,
         "metricas": metricas_pct,
         "precision_promedio": precision_promedio,
         "recall_promedio": recall_promedio,

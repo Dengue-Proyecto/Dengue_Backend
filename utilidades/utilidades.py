@@ -18,6 +18,7 @@ svm_poly = joblib.load(ruta_modelos / 'modelo_svm_poli_ajustado.pkl')
 svm_rbf = joblib.load(ruta_modelos / 'modelo_svm_rbf_ajustado.pkl')
 svm_sigmoid = joblib.load(ruta_modelos / 'modelo_svm_sigmoide_ajustado.pkl')
 forest = joblib.load(ruta_modelos / 'modelo_random_forest_dengue.pkl')
+xgboost = joblib.load(ruta_modelos / 'modelo_xgboost_ajustado.pkl')
 
 # Cargar scaler y PCA
 scaler = joblib.load(ruta_modelos / 'scaler.pkl')
@@ -31,6 +32,7 @@ def get_modelo():
         "svm_rbf": svm_rbf,
         "svm_sigmoid": svm_sigmoid,
         "random_forest": forest,
+        "xgboost": xgboost
     }
 
 def get_preprocesadores():
