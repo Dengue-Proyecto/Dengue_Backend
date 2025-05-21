@@ -1,19 +1,27 @@
-import joblib
+from pathlib import Path
 import json
+import joblib
 
-# Cargar el modelo globalmente
-svm_linear = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/modelo_svm_lineal_ajustado.pkl')
-svm_poly = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/modelo_svm_poli_ajustado.pkl')
-svm_rbf = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/modelo_svm_rbf_ajustado.pkl')
-svm_sigmoid = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/modelo_svm_sigmoide_ajustado.pkl')
-forest = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/modelo_random_forest_dengue.pkl')
+# Ruta del archivo actual
+ruta_actual = Path(__file__).resolve()
 
-# Ruta al archivo JSON con métricas
-ruta_metricas = 'C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/metricas_modelos.json'
+# Subir hasta la raíz del proyecto (dos niveles arriba, porque 'utilidades/utilidades.py')
+ruta_base = ruta_actual.parent.parent  # Esto apunta a Dengue_Backend/
 
-#Cargar Scaler y PCA
-scaler = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/scaler.pkl')
-pca = joblib.load('C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML/pca.pkl')
+# Construir ruta hacia carpeta modeloML
+ruta_modelos = ruta_base / 'modeloML'
+ruta_metricas = ruta_modelos / 'metricas_modelos.json'
+
+# Cargar modelos
+svm_linear = joblib.load(ruta_modelos / 'modelo_svm_lineal_ajustado.pkl')
+svm_poly = joblib.load(ruta_modelos / 'modelo_svm_poli_ajustado.pkl')
+svm_rbf = joblib.load(ruta_modelos / 'modelo_svm_rbf_ajustado.pkl')
+svm_sigmoid = joblib.load(ruta_modelos / 'modelo_svm_sigmoide_ajustado.pkl')
+forest = joblib.load(ruta_modelos / 'modelo_random_forest_dengue.pkl')
+
+# Cargar scaler y PCA
+scaler = joblib.load(ruta_modelos / 'scaler.pkl')
+pca = joblib.load(ruta_modelos / 'pca.pkl')
 
 # Función para acceder al modelo
 def get_modelo():
