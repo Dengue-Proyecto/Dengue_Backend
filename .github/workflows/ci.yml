@@ -25,7 +25,6 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: 22
           script: |
-            sudo su
             cd /home/ubuntu/
 
             if [ ! -d "Dengue_Backend" ]; then
