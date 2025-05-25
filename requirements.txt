@@ -5,3 +5,5 @@ joblib
 scikit-learn
 xgboost
 pandas
+requests
+beautifulsoup4

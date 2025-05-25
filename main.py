@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from rutas import sintoma_router
+from rutas import sintoma_router, usuario_router
 
 app = FastAPI()
 
@@ -18,4 +18,5 @@ app.add_middleware(
     allow_headers=["*"],  # Permitir todos los encabezados
 )
 app.include_router(sintoma_router)
+app.include_router(usuario_router)
 
