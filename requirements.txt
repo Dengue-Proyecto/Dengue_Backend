@@ -7,3 +7,4 @@ xgboost
 pandas
 requests
 beautifulsoup4
+pydantic[email]
