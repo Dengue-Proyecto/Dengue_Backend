@@ -1,7 +1,5 @@
 from modelo import FormularioSintomas
-from utilidades import get_modelo
-from utilidades import get_metricas
-from utilidades import get_preprocesadores
+from utilidades import get_modelo, get_metricas, get_preprocesadores
 import pandas as pd
 
 def calcular_riesgo(sintomas: FormularioSintomas):

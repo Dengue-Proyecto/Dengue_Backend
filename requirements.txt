@@ -8,3 +8,8 @@ pandas
 requests
 beautifulsoup4
 pydantic[email]
+tortoise-orm
+aiomysql
+passlib[bcrypt]
+pydantic-settings
+pyjwt[crypto]

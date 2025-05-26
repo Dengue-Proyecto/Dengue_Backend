@@ -1,7 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 from fastapi import HTTPException
-from modelo import UsuarioRegistro
+from tortoise.expressions import Q
+from db import Usuario
+from modelo import UsuarioRegistro, UsuarioLogin
+from utilidades import hash_password, crear_token, decodificar_token, verificar_password
 
 def consulta_cmp(cmp_num: str):
     url = 'https://aplicaciones.cmp.org.pe/conoce_a_tu_medico/datos-colegiado.php'
@@ -45,15 +48,25 @@ def consulta_cmp(cmp_num: str):
         'nombres': resultado.get('Nombres', '')
     }
 
-# Simulación de almacenamiento en memoria (usar DB en producción)
-usuarios_registrados = []
+async def registrar_usuario(usuario: UsuarioRegistro):
+    existe = await Usuario.filter(
+        Q(correo=usuario.correo) | Q(numero_colegiatura=usuario.numero_colegiatura)
+    ).first()
 
-def registrar_usuario(usuario: UsuarioRegistro) -> bool:
-    # Validar si ya existe usuario con ese correo o colegiatura (ejemplo)
-    for u in usuarios_registrados:
-        if u.correo == usuario.correo or u.numero_colegiatura == usuario.numero_colegiatura:
-            return False  # Ya existe
+    if existe:
+        raise HTTPException(status_code=400, detail="Usuario ya registrado")
 
-    # Guardar usuario (en DB o memoria)
-    usuarios_registrados.append(usuario)
-    return True
+    usuario_dict = usuario.dict()
+    usuario_dict["contrasena"] = hash_password(usuario_dict["contrasena"])
+
+    await Usuario.create(**usuario_dict)
+
+    return {"mensaje": "Usuario registrado correctamente"}
+
+async def login_usuario(data: UsuarioLogin):
+    usuario = await Usuario.get_or_none(numero_colegiatura=data.numero_colegiatura)
+    if not usuario or not verificar_password(data.contrasena, usuario.contrasena):
+        raise HTTPException(status_code=401, detail="Número de colegiatura o contraseña incorrectos")
+
+    token = crear_token({"sub": str(usuario.id)})
+    return {"access_token": token, "token_type": "bearer"}

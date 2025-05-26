@@ -7,3 +7,7 @@ class UsuarioRegistro(BaseModel):
     apellido_materno: str
     correo: EmailStr
     contrasena: str
+
+class UsuarioLogin(BaseModel):
+    numero_colegiatura: str
+    contrasena: str

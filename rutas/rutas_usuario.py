@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Query
-from servicios import consulta_cmp
-from servicios import registrar_usuario
-from modelo import UsuarioRegistro
+from servicios import consulta_cmp, registrar_usuario, login_usuario
+from modelo import UsuarioRegistro, UsuarioLogin
 
 router = APIRouter()
 
@@ -10,7 +9,10 @@ def ruta_consulta_cmp(cmp_num: str = Query(..., min_length=6, max_length=6, rege
     return consulta_cmp(cmp_num)
 
 @router.post("/usuario/registrar_usuario")
-def ruta_registrar_usuario(usuario: UsuarioRegistro):
-    # Llamar función para guardar usuario
-    registrar_usuario(usuario)
+async def ruta_registrar_usuario(usuario: UsuarioRegistro):
+    return await registrar_usuario(usuario)
+
+@router.post("/usuario/login")
+async def ruta_login_usuario(data: UsuarioLogin):
+    return await login_usuario(data)
 

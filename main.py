@@ -1,8 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from rutas import sintoma_router, usuario_router
+from tortoise.contrib.fastapi import register_tortoise
+from config import settings
 
 app = FastAPI()
+
+register_tortoise(
+    app,
+    db_url=settings.DATABASE_URL,
+    modules={"models": ["db.usuario"]},
+    generate_schemas=True,  # True para crear las tablas automáticamente
+    add_exception_handlers=True,
+)
 
 # Configuración de CORS
 origins = [

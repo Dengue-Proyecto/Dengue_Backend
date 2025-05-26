@@ -4,15 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="CI Github">
-      <change afterPath="$PROJECT_DIR$/modelo/modelo_usuario.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rutas/rutas_usuario.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/servicios/servicio_usuario.py" afterDir="false" />
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="WebScrapping + Registro">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/db/usuario.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utilidades/token.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modelo/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/modelo/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modelo/modelo_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/modelo/modelo_usuario.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rutas/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rutas/rutas_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/rutas_usuario.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/servicios/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/servicios/servicio_riesgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_riesgo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/servicios/servicio_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_usuario.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilidades/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,25 +62,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;FastAPI.Dengue_Backend.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "FastAPI.Dengue_Backend.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "database.data.extractors.current.export.id": "Comma-separated (CSV)_id",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\angel\PycharmProjects\Dengue_Backend\modeloML" />
@@ -146,6 +154,8 @@
       <workItem from="1747862308079" duration="219000" />
       <workItem from="1747883703263" duration="9851000" />
       <workItem from="1748051496155" duration="12964000" />
+      <workItem from="1748120192949" duration="23132000" />
+      <workItem from="1748211213832" duration="13127000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -283,7 +293,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747812382690</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="WebScrapping + Registro">
+      <option name="closed" value="true" />
+      <created>1748134688255</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1748134688255</updated>
+    </task>
+    <task id="LOCAL-00019" summary="WebScrapping + Registro">
+      <option name="closed" value="true" />
+      <created>1748149605821</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1748149605821</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -301,9 +327,10 @@
     <MESSAGE value="actualizacion de rutas" />
     <MESSAGE value="Modelo XGbosst" />
     <MESSAGE value="CI Github" />
-    <option name="LAST_COMMIT_MESSAGE" value="CI Github" />
+    <MESSAGE value="WebScrapping + Registro" />
+    <option name="LAST_COMMIT_MESSAGE" value="WebScrapping + Registro" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1748058863811" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1748235823569" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
