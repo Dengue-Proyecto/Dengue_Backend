@@ -53,9 +53,8 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     probabilidad_poli = modelo["svm_poly"].predict_proba(df_pca)[0][1]
     probabilidad_rbf = modelo["svm_rbf"].predict_proba(df_pca)[0][1]
     probabilidad_sigmoid = modelo["svm_sigmoid"].predict_proba(df_pca)[0][1]
-    probabilidad_random_forest = modelo["random_forest"].predict_proba(df_datos)[0][1]
-    probabilidad_xgboost = float(modelo["xgboost"].predict_proba(df_datos)[0][1])
-
+    probabilidad_random_forest = float(modelo["random_forest"].predict_proba(df_pca)[0][1])
+    probabilidad_xgboost = float(modelo["xgboost"].predict_proba(df_pca)[0][1])
 
     print(probabilidad_lineal)
     print(probabilidad_poli)

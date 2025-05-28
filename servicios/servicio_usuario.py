@@ -4,7 +4,7 @@ from fastapi import HTTPException
 from tortoise.expressions import Q
 from db import Usuario
 from modelo import UsuarioRegistro, UsuarioLogin
-from utilidades import hash_password, crear_token, decodificar_token, verificar_password
+from utilidades import hash_password, crear_token, verificar_password
 
 def consulta_cmp(cmp_num: str):
     url = 'https://aplicaciones.cmp.org.pe/conoce_a_tu_medico/datos-colegiado.php'

@@ -1,12 +1,15 @@
 import jwt
 from datetime import datetime, timedelta
-from fastapi import HTTPException, status
+from fastapi import Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from config import settings
 
 SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = settings.ALGORITHM
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/usuario/login")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -29,3 +32,9 @@ def decodificar_token(token: str):
         raise HTTPException(status_code=401, detail="Token expirado")
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Token inválido")
+
+async def obtener_usuario_actual(token: str = Depends(oauth2_scheme)):
+    payload = decodificar_token(token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Token inválido o expirado")
+    return payload.get("sub")  # aquí 'sub' es el identificador del usuario en el token
