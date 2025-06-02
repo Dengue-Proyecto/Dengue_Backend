@@ -9,7 +9,7 @@ app = FastAPI()
 register_tortoise(
     app,
     db_url=settings.DATABASE_URL,
-    modules={"models": ["db.usuario", "db.evaluacion"]},
+    modules={"models": ["db.usuario", "db.evaluacion", "db.sintoma", "db.evaluacion_sintoma"]},  # Asegúrate de incluir todos los modelos necesarios
     generate_schemas=True,  # True para crear las tablas automáticamente
     add_exception_handlers=True,
 )
