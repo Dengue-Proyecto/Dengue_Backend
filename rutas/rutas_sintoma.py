@@ -15,8 +15,19 @@ async def evaluar_riesgo(
     # Calcular riesgo
     resultados = calcular_riesgo(sintomas)
 
-    # Extraer el riesgo de uno de los modelos (por ejemplo riesgo_lineal)
-    riesgo = resultados.get("riesgo_random_forest", "desconocido")
+    # Extraer la probabilidad calculada
+    probabilidad_riesgo = resultados.get("probabilidad_random_forest")
+
+    # Convertir la probabilidad a la clasificación correspondiente
+    def convertir_riesgo(prob):
+        if prob < 0.3:
+            return 'bajo'
+        elif prob < 0.7:
+            return 'medio'
+        else:
+            return 'alto'
+
+    riesgo = convertir_riesgo(probabilidad_riesgo)
 
     # Construir diccionario de síntomas solo con los marcados como True
     sintomas_dict = sintomas.dict()
@@ -34,6 +45,7 @@ async def evaluar_riesgo(
     evaluacion = await Evaluacion.create(
         usuario_id=int(usuario_actual),
         riesgo=riesgo,
+        probabilidad=probabilidad_riesgo,
         tiempo_inicial=tiempo_inicial_dt,
         tiempo_final=tiempo_final_dt,
         fecha=fecha_utc

@@ -1,0 +1,328 @@
+Index: servicios/servicio_riesgo.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from modelo import FormularioSintomas\r\nfrom utilidades import get_modelo, get_metricas, get_preprocesadores\r\nimport pandas as pd\r\n\r\ndef calcular_riesgo(sintomas: FormularioSintomas):\r\n    modelo = get_modelo()  # Cargar los modelos\r\n    metricas = get_metricas() # Cargar las métricas\r\n    scaler, pca = get_preprocesadores()  # Cargar los preprocesadores\r\n    # Convertir los síntomas del formulario en una lista de valores 0 y 1\r\n    datos = [\r\n        sintomas.dias_de_fiebre,\r\n        sintomas.dolor_cabeza_severo,\r\n        sintomas.dolor_detras_ojos,\r\n        sintomas.dolor_articular_muscular,\r\n        sintomas.sabor_metalico_boca,\r\n        sintomas.perdida_apetito,\r\n        sintomas.dolor_abdominal,\r\n        sintomas.nauseas_vomitos,\r\n        sintomas.diarrea\r\n    ]\r\n\r\n    # Convertir la lista a un DataFrame\r\n    df_datos = pd.DataFrame([datos], columns=[\r\n        \"dias_con_fiebre\",\r\n        \"dolor_cabeza_severo\",\r\n        \"dolor_detras_ojos\",\r\n        \"dolor_articular_muscular\",\r\n        \"sabor_metalico_boca\",\r\n        \"perdida_apetito\",\r\n        \"dolor_abdominal\",\r\n        \"nauseas_vomitos\",\r\n        \"diarrea\"\r\n    ])\r\n\r\n    # Separar numéricas y no numéricas igual que en entrenamiento\r\n    columnas_numericas = ['dias_con_fiebre']\r\n    columnas_no_numericas = ['dolor_cabeza_severo', 'dolor_detras_ojos', 'dolor_articular_muscular',\r\n                             'sabor_metalico_boca', 'perdida_apetito', 'dolor_abdominal',\r\n                             'nauseas_vomitos', 'diarrea']\r\n\r\n    # 1. Escalar solo las columnas numéricas (usar el scaler cargado)\r\n    df_datos[columnas_numericas] = scaler.transform(df_datos[columnas_numericas])\r\n\r\n    # 2. Aplicar PCA a todas las columnas (numéricas + no numéricas)\r\n    columnas_completas = columnas_numericas + columnas_no_numericas\r\n    datos_pca = pca.transform(df_datos[columnas_completas])\r\n\r\n    # Convertir a DataFrame para pasar al modelo\r\n    df_pca = pd.DataFrame(datos_pca, columns=[f'Componente {i+1}' for i in range(datos_pca.shape[1])])\r\n\r\n    # Realizar la predicción usando el modelo\r\n    probabilidad_lineal = modelo[\"svm_linear\"].predict_proba(df_pca)[0][1]\r\n    probabilidad_poli = modelo[\"svm_poly\"].predict_proba(df_pca)[0][1]\r\n    probabilidad_rbf = modelo[\"svm_rbf\"].predict_proba(df_pca)[0][1]\r\n    probabilidad_sigmoid = modelo[\"svm_sigmoid\"].predict_proba(df_pca)[0][1]\r\n    probabilidad_random_forest = float(modelo[\"random_forest\"].predict_proba(df_pca)[0][1])\r\n    probabilidad_xgboost = float(modelo[\"xgboost\"].predict_proba(df_pca)[0][1])\r\n\r\n    print(probabilidad_lineal)\r\n    print(probabilidad_poli)\r\n    print(probabilidad_rbf)\r\n    print(probabilidad_sigmoid)\r\n    print(probabilidad_random_forest)\r\n    print(probabilidad_xgboost)\r\n\r\n    # Función para convertir la probabilidad a clasificación de riesgo\r\n    def convertir_riesgo(prob):\r\n        if prob < 0.3:\r\n            return 'bajo'\r\n        elif prob < 0.7:\r\n            return 'medio'\r\n        else:\r\n            return 'alto'\r\n\r\n    # Determinar el riesgo basado en la probabilidad para cada modelo\r\n    riesgo_lineal = convertir_riesgo(probabilidad_lineal)\r\n    riesgo_poli = convertir_riesgo(probabilidad_poli)\r\n    riesgo_rbf = convertir_riesgo(probabilidad_rbf)\r\n    riesgo_sigmoid = convertir_riesgo(probabilidad_sigmoid)\r\n    riesgo_random_forest = convertir_riesgo(probabilidad_random_forest)\r\n    riesgo_xgboost = convertir_riesgo(probabilidad_xgboost)\r\n\r\n    # Convertir las probabilidades a porcentaje\r\n    probabilidad_lineal_pct = round(probabilidad_lineal * 100, 2)\r\n    probabilidad_poli_pct = round(probabilidad_poli * 100, 2)\r\n    probabilidad_rbf_pct = round(probabilidad_rbf * 100, 2)\r\n    probabilidad_sigmoid_pct = round(probabilidad_sigmoid * 100, 2)\r\n    probabilidad_random_forest_pct = round(probabilidad_random_forest * 100, 2)\r\n    probabilidad_xgboost_pct = round(probabilidad_xgboost * 100, 2)\r\n\r\n    # Convertir las métricas en porcentaje excepto prediction_time\r\n    metricas_pct = {}\r\n    for modelo, met in metricas.items():\r\n        metricas_pct[modelo] = {\r\n            \"accuracy\": round(met[\"accuracy\"] * 100, 2),\r\n            \"auc_roc\": round(met[\"auc_roc\"] * 100, 2),\r\n            \"recall\": round(met[\"recall\"] * 100, 2),\r\n            \"specificity\": round(met[\"specificity\"] * 100, 2),\r\n            \"fpr\": round(met[\"fpr\"] * 100, 2),\r\n            \"f1_score\": round(met[\"f1_score\"] * 100, 2),\r\n            \"prediction_time\": met[\"prediction_time\"]\r\n        }\r\n\r\n    # Calcular promedios generales\r\n    n = len(metricas_pct)\r\n    precision_promedio = round(sum(m[\"accuracy\"] for m in metricas_pct.values()) / n, 2)\r\n    recall_promedio = round(sum(m[\"recall\"] for m in metricas_pct.values()) / n, 2)\r\n    tiempo_promedio = round(sum(m[\"prediction_time\"] for m in metricas_pct.values()) / n, 4)\r\n\r\n    # Devolver los riesgos\r\n    return {\r\n        \"riesgo_lineal\": riesgo_lineal,\r\n        \"riesgo_poli\": riesgo_poli,\r\n        \"riesgo_rbf\": riesgo_rbf,\r\n        \"riesgo_sigmoid\": riesgo_sigmoid,\r\n        \"riesgo_random_forest\": riesgo_random_forest,\r\n        \"riesgo_xgboost\": riesgo_xgboost,\r\n        \"probabilidad_lineal_pct\": probabilidad_lineal_pct,\r\n        \"probabilidad_poli_pct\": probabilidad_poli_pct,\r\n        \"probabilidad_rbf_pct\": probabilidad_rbf_pct,\r\n        \"probabilidad_sigmoid_pct\": probabilidad_sigmoid_pct,\r\n        \"probabilidad_random_forest_pct\": probabilidad_random_forest_pct,\r\n        \"probabilidad_xgboost_pct\": probabilidad_xgboost_pct,\r\n        \"metricas\": metricas_pct,\r\n        \"precision_promedio\": precision_promedio,\r\n        \"recall_promedio\": recall_promedio,\r\n        \"tiempo_promedio\": tiempo_promedio,\r\n    }
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/servicios/servicio_riesgo.py b/servicios/servicio_riesgo.py
+--- a/servicios/servicio_riesgo.py	(revision 5aa3c1f39f68047a0407db766e66decb4dbd600f)
++++ b/servicios/servicio_riesgo.py	(date 1749020598854)
+@@ -1,11 +1,17 @@
++import google.generativeai as genai
+ from modelo import FormularioSintomas
+ from utilidades import get_modelo, get_metricas, get_preprocesadores
+ import pandas as pd
+ 
++# Configuración de la API de Gemini
++genai.configure(api_key="AIzaSyDdi9rjbvCmlEkuk9bsR0L_v2ojr04WHJs")  # Asegúrate de reemplazar con tu clave de API
++
++
+ def calcular_riesgo(sintomas: FormularioSintomas):
+     modelo = get_modelo()  # Cargar los modelos
+-    metricas = get_metricas() # Cargar las métricas
++    metricas = get_metricas()  # Cargar las métricas
+     scaler, pca = get_preprocesadores()  # Cargar los preprocesadores
++
+     # Convertir los síntomas del formulario en una lista de valores 0 y 1
+     datos = [
+         sintomas.dias_de_fiebre,
+@@ -32,23 +38,18 @@
+         "diarrea"
+     ])
+ 
+-    # Separar numéricas y no numéricas igual que en entrenamiento
++    # Procesamiento de los datos
+     columnas_numericas = ['dias_con_fiebre']
+     columnas_no_numericas = ['dolor_cabeza_severo', 'dolor_detras_ojos', 'dolor_articular_muscular',
+                              'sabor_metalico_boca', 'perdida_apetito', 'dolor_abdominal',
+                              'nauseas_vomitos', 'diarrea']
+ 
+-    # 1. Escalar solo las columnas numéricas (usar el scaler cargado)
+     df_datos[columnas_numericas] = scaler.transform(df_datos[columnas_numericas])
+-
+-    # 2. Aplicar PCA a todas las columnas (numéricas + no numéricas)
+     columnas_completas = columnas_numericas + columnas_no_numericas
+     datos_pca = pca.transform(df_datos[columnas_completas])
+-
+-    # Convertir a DataFrame para pasar al modelo
+-    df_pca = pd.DataFrame(datos_pca, columns=[f'Componente {i+1}' for i in range(datos_pca.shape[1])])
++    df_pca = pd.DataFrame(datos_pca, columns=[f'Componente {i + 1}' for i in range(datos_pca.shape[1])])
+ 
+-    # Realizar la predicción usando el modelo
++    # Realizar la predicción utilizando el modelo
+     probabilidad_lineal = modelo["svm_linear"].predict_proba(df_pca)[0][1]
+     probabilidad_poli = modelo["svm_poly"].predict_proba(df_pca)[0][1]
+     probabilidad_rbf = modelo["svm_rbf"].predict_proba(df_pca)[0][1]
+@@ -56,13 +57,6 @@
+     probabilidad_random_forest = float(modelo["random_forest"].predict_proba(df_pca)[0][1])
+     probabilidad_xgboost = float(modelo["xgboost"].predict_proba(df_pca)[0][1])
+ 
+-    print(probabilidad_lineal)
+-    print(probabilidad_poli)
+-    print(probabilidad_rbf)
+-    print(probabilidad_sigmoid)
+-    print(probabilidad_random_forest)
+-    print(probabilidad_xgboost)
+-
+     # Función para convertir la probabilidad a clasificación de riesgo
+     def convertir_riesgo(prob):
+         if prob < 0.3:
+@@ -89,7 +83,7 @@
+     probabilidad_xgboost_pct = round(probabilidad_xgboost * 100, 2)
+ 
+     # Convertir las métricas en porcentaje excepto prediction_time
+-    metricas_pct = {}
++    metricas_pct = {}  # Aquí es donde se define correctamente 'metricas_pct'
+     for modelo, met in metricas.items():
+         metricas_pct[modelo] = {
+             "accuracy": round(met["accuracy"] * 100, 2),
+@@ -107,7 +101,28 @@
+     recall_promedio = round(sum(m["recall"] for m in metricas_pct.values()) / n, 2)
+     tiempo_promedio = round(sum(m["prediction_time"] for m in metricas_pct.values()) / n, 4)
+ 
+-    # Devolver los riesgos
++    # Filtrar síntomas marcados como True
++    sintomas_dict = sintomas.dict()
++    sintomas_identificados = [k for k, v in sintomas_dict.items() if isinstance(v, bool) and v]
++    if sintomas_dict.get("dias_de_fiebre", 0) > 0:
++        sintomas_identificados.append(f"días de fiebre: {sintomas_dict['dias_de_fiebre']}")
++
++    # Generar la interpretación usando la API de Gemini solo con los síntomas identificados
++    interpretacion_prompt = f"Eres un experto médico en enfermedades tropicales. Según los siguientes síntomas del paciente, brinda una interpretación breve, clara y en español sobre el nivel de riesgo de dengue y recomendaciones básicas.\n\n" \
++                            f"Síntomas:\n"
++
++    for sintoma in sintomas_identificados:
++        interpretacion_prompt += f"- {sintoma.replace('_', ' ').capitalize()}: {'Sí' if sintoma != 'dias_de_fiebre' else sintomas_dict['dias_de_fiebre']}\n"
++
++    interpretacion_prompt += "\nPor favor, proporciona una recomendación médica basada en estos síntomas."
++
++    # Generar la interpretación usando Gemini
++    response = genai.GenerativeModel('gemini-1.5-flash')  # Asegúrate de usar el modelo adecuado
++    gemini_response = response.generate_content(interpretacion_prompt)
++
++    interpretacion = gemini_response.text
++
++    # Devolver todos los resultados junto con la interpretación de Gemini
+     return {
+         "riesgo_lineal": riesgo_lineal,
+         "riesgo_poli": riesgo_poli,
+@@ -121,8 +136,9 @@
+         "probabilidad_sigmoid_pct": probabilidad_sigmoid_pct,
+         "probabilidad_random_forest_pct": probabilidad_random_forest_pct,
+         "probabilidad_xgboost_pct": probabilidad_xgboost_pct,
+-        "metricas": metricas_pct,
++        "metricas": metricas_pct,  # Asegúrate de que metricas_pct esté definida
+         "precision_promedio": precision_promedio,
+         "recall_promedio": recall_promedio,
+         "tiempo_promedio": tiempo_promedio,
+-    }
+\ No newline at end of file
++        "interpretacion": interpretacion  # La interpretación generada por Gemini
++    }
+Index: rutas/rutas_sintoma.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from datetime import datetime,UTC\r\nfrom fastapi import APIRouter, Depends\r\nfrom servicios import calcular_riesgo\r\nfrom modelo import FormularioSintomas\r\nfrom utilidades import obtener_usuario_actual\r\nfrom db import Evaluacion\r\nrouter = APIRouter()\r\n\r\n@router.post(\"/evaluar_riesgo\")\r\nasync def evaluar_riesgo(\r\n    sintomas: FormularioSintomas,\r\n    usuario_actual: str = Depends(obtener_usuario_actual)\r\n):\r\n    # Calcular riesgo\r\n    resultados = calcular_riesgo(sintomas)\r\n\r\n    # Extraer el riesgo de uno de los modelos (por ejemplo riesgo_lineal)\r\n    riesgo = resultados.get(\"riesgo_random_forest\", \"desconocido\")\r\n\r\n    # Construir diccionario de síntomas solo con los marcados como True\r\n    sintomas_dict = sintomas.dict()\r\n    # Sintomas booleanos marcados en True\r\n    sintomas_identificados = [k for k, v in sintomas_dict.items() if isinstance(v, bool) and v]\r\n    # Añadir días de fiebre si > 0\r\n    if sintomas_dict.get(\"dias_de_fiebre\", 0) > 0:\r\n        sintomas_identificados.append(f\"días de fiebre: {sintomas_dict['dias_de_fiebre']}\")\r\n\r\n    fecha_utc = datetime.now(UTC)\r\n\r\n    # Guardar en BD\r\n    await Evaluacion.create(\r\n        usuario_id=int(usuario_actual),\r\n        riesgo=riesgo,\r\n        sintomas=sintomas_identificados,\r\n        tiempo_evaluacion=sintomas.tiempo_evaluacion,\r\n        fecha=fecha_utc\r\n    )\r\n\r\n    return resultados\r\n\r\n@router.get(\"/mis_evaluaciones\")\r\nasync def obtener_mis_evaluaciones(usuario_actual: str = Depends(obtener_usuario_actual)):\r\n    evaluaciones = await Evaluacion.filter(usuario_id=int(usuario_actual)).order_by(\"-fecha\").all()\r\n    resultados = []\r\n    for ev in evaluaciones:\r\n        sintomas = ev.sintomas or []\r\n        cantidad_sintomas = len(sintomas)\r\n        resultados.append({\r\n            \"fecha\": ev.fecha.isoformat(),\r\n            \"riesgo\": ev.riesgo,\r\n            \"sintomas_identificados\": sintomas,\r\n            \"cantidad_sintomas\": cantidad_sintomas,\r\n            \"tiempo_evaluacion\": ev.tiempo_evaluacion\r\n        })\r\n    return resultados\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rutas/rutas_sintoma.py b/rutas/rutas_sintoma.py
+--- a/rutas/rutas_sintoma.py	(revision 5aa3c1f39f68047a0407db766e66decb4dbd600f)
++++ b/rutas/rutas_sintoma.py	(date 1749058152319)
+@@ -1,4 +1,4 @@
+-from datetime import datetime,UTC
++from datetime import datetime, timezone
+ from fastapi import APIRouter, Depends
+ from servicios import calcular_riesgo
+ from modelo import FormularioSintomas
+@@ -25,7 +25,7 @@
+     if sintomas_dict.get("dias_de_fiebre", 0) > 0:
+         sintomas_identificados.append(f"días de fiebre: {sintomas_dict['dias_de_fiebre']}")
+ 
+-    fecha_utc = datetime.now(UTC)
++    fecha_utc = datetime.now(timezone.utc)
+ 
+     # Guardar en BD
+     await Evaluacion.create(
+Index: .env
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>##DATABASE_URL=mysql://root:angelo1@127.0.0.1:3306/denguedb\r\nSECRET_KEY=tu_clave_secreta_segura\r\nALGORITHM=HS256\r\nACCESS_TOKEN_EXPIRE_MINUTES=60 # 1 hora\r\n\r\nDATABASE_URL=mysql://admin:Mabelleon123!@denguedb.cbs0i2uasl7i.us-east-2.rds.amazonaws.com/denguedb
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.env b/.env
+--- a/.env	(revision 5aa3c1f39f68047a0407db766e66decb4dbd600f)
++++ b/.env	(date 1748461816821)
+@@ -1,6 +1,6 @@
+-##DATABASE_URL=mysql://root:angelo1@127.0.0.1:3306/denguedb
++DATABASE_URL=mysql://root:200420@127.0.0.1:3306/denguedb
+ SECRET_KEY=tu_clave_secreta_segura
+ ALGORITHM=HS256
+ ACCESS_TOKEN_EXPIRE_MINUTES=60 # 1 hora
+ 
+-DATABASE_URL=mysql://admin:Mabelleon123!@denguedb.cbs0i2uasl7i.us-east-2.rds.amazonaws.com/denguedb
+\ No newline at end of file
++# DATABASE_URL=mysql://admin:Mabelleon123!@denguedb.cbs0i2uasl7i.us-east-2.rds.amazonaws.com/denguedb
+\ No newline at end of file
+Index: config.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from pydantic_settings import BaseSettings\r\n\r\nclass Settings(BaseSettings):\r\n    DATABASE_URL: str\r\n    SECRET_KEY : str\r\n    ALGORITHM : str\r\n    ACCESS_TOKEN_EXPIRE_MINUTES : int\r\n\r\n    class Config:\r\n        env_file = \".env\"\r\n\r\n\r\nsettings = Settings()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/config.py b/config.py
+--- a/config.py	(revision 5aa3c1f39f68047a0407db766e66decb4dbd600f)
++++ b/config.py	(date 1749011500445)
+@@ -1,4 +1,7 @@
+ from pydantic_settings import BaseSettings
++import os
++
++GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")  # Asegúrate de tener la variable de entorno configurada
+ 
+ class Settings(BaseSettings):
+     DATABASE_URL: str
+Index: .idea/Dengue_Backend.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.venv\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.13 (Dengue_Backend) (2)\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/Dengue_Backend.iml b/.idea/Dengue_Backend.iml
+--- a/.idea/Dengue_Backend.iml	(revision 5aa3c1f39f68047a0407db766e66decb4dbd600f)
++++ b/.idea/Dengue_Backend.iml	(date 1749015803437)
+@@ -4,7 +4,7 @@
+     <content url="file://$MODULE_DIR$">
+       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+     </content>
+-    <orderEntry type="jdk" jdkName="Python 3.13 (Dengue_Backend) (2)" jdkType="Python SDK" />
++    <orderEntry type="jdk" jdkName="Python 3.13 virtualenv at C:\Users\mabel\PycharmProjects\Dengue_Backend\.venv" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: requirements.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>uvicorn\r\nfastapi\r\npydantic\r\njoblib\r\nscikit-learn\r\nxgboost\r\npandas\r\nrequests\r\nbeautifulsoup4\r\npydantic[email]\r\ntortoise-orm\r\naiomysql\r\npasslib[bcrypt]\r\npydantic-settings\r\npyjwt[crypto]
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/requirements.txt b/requirements.txt
+--- a/requirements.txt	(revision 5aa3c1f39f68047a0407db766e66decb4dbd600f)
++++ b/requirements.txt	(date 1749011722778)
+@@ -12,4 +12,5 @@
+ aiomysql
+ passlib[bcrypt]
+ pydantic-settings
+-pyjwt[crypto]
+\ No newline at end of file
++pyjwt[crypto]
++
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"2bcfc3fd-2ce5-457e-9628-e56f781efdd1\" name=\"Changes\" comment=\"Funcion de Registro y Inicio de sesión + token\">\r\n      <change afterPath=\"$PROJECT_DIR$/db/evaluacion.py\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/rutas/rutas_evaluaciones.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/db/__init__.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/db/__init__.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/main.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/main.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/modelo/modelo_sintoma.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/modelo/modelo_sintoma.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/modeloML/modeloRF.ipynb\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/modeloML/modeloRF.ipynb\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/modeloML/modeloSVM2.ipynb\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/modeloML/modeloSVM2.ipynb\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/rutas/rutas_sintoma.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/rutas/rutas_sintoma.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/utilidades/__init__.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/utilidades/__init__.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/utilidades/token.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/utilidades/token.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"FastAPI main\" />\r\n        <option value=\"FastAPI test_main\" />\r\n        <option value=\"Jupyter Notebook\" />\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;AngeloSanchez28&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/Dengue-Proyecto/Dengue_Backend.git&quot;,\r\n    &quot;accountId&quot;: &quot;5e89dc77-2a63-4bbc-83b9-cec1e557a433&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"CurrentFile\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 1\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2vlsbykhLwZQyLC8QNMbrb69C5j\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;FastAPI.Dengue_Backend.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;database.data.extractors.current.export.id&quot;: &quot;Comma-separated (CSV)_id&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/angel/PycharmProjects/Dengue_Backend/modeloML&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\angel\\PycharmProjects\\Dengue_Backend\\modeloML\" />\r\n      <recent name=\"C:\\Users\\angel\\PycharmProjects\\Dengue_Backend\\modelo\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\angel\\PycharmProjects\\Dengue_Backend\" />\r\n      <recent name=\"C:\\Users\\angel\\PycharmProjects\\Dengue_Backend\\modeloML\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"Dengue_Backend\" type=\"Python.FastAPI\">\r\n      <option name=\"file\" value=\"$PROJECT_DIR$/main.py\" />\r\n      <module name=\"Dengue_Backend\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"launchJavascriptDebuger\" value=\"false\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-PY-251.25410.159\" />\r\n        <option value=\"bundled-python-sdk-e0ed3721d81e-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.159\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"2bcfc3fd-2ce5-457e-9628-e56f781efdd1\" name=\"Changes\" comment=\"\" />\r\n      <created>1744731071438</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1744731071438</updated>\r\n      <workItem from=\"1744731072591\" duration=\"12943000\" />\r\n      <workItem from=\"1744813008759\" duration=\"20301000\" />\r\n      <workItem from=\"1744989560074\" duration=\"4978000\" />\r\n      <workItem from=\"1745041052633\" duration=\"2279000\" />\r\n      <workItem from=\"1745079436796\" duration=\"26574000\" />\r\n      <workItem from=\"1745207099555\" duration=\"9798000\" />\r\n      <workItem from=\"1745372150162\" duration=\"5732000\" />\r\n      <workItem from=\"1745464059054\" duration=\"9319000\" />\r\n      <workItem from=\"1745515065860\" duration=\"670000\" />\r\n      <workItem from=\"1745722283008\" duration=\"42000\" />\r\n      <workItem from=\"1746031769845\" duration=\"4034000\" />\r\n      <workItem from=\"1746039218817\" duration=\"1129000\" />\r\n      <workItem from=\"1746510416343\" duration=\"902000\" />\r\n      <workItem from=\"1746585012718\" duration=\"4379000\" />\r\n      <workItem from=\"1746801849514\" duration=\"707000\" />\r\n      <workItem from=\"1746803334276\" duration=\"15369000\" />\r\n      <workItem from=\"1746841787470\" duration=\"21555000\" />\r\n      <workItem from=\"1746910416672\" duration=\"32244000\" />\r\n      <workItem from=\"1746945139030\" duration=\"4505000\" />\r\n      <workItem from=\"1747174288203\" duration=\"85000\" />\r\n      <workItem from=\"1747174404924\" duration=\"28973000\" />\r\n      <workItem from=\"1747231950151\" duration=\"17287000\" />\r\n      <workItem from=\"1747586948662\" duration=\"123000\" />\r\n      <workItem from=\"1747587163313\" duration=\"17688000\" />\r\n      <workItem from=\"1747707144572\" duration=\"13196000\" />\r\n      <workItem from=\"1747779302134\" duration=\"25953000\" />\r\n      <workItem from=\"1747862308079\" duration=\"219000\" />\r\n      <workItem from=\"1747883703263\" duration=\"9851000\" />\r\n      <workItem from=\"1748051496155\" duration=\"12964000\" />\r\n      <workItem from=\"1748120192949\" duration=\"23132000\" />\r\n      <workItem from=\"1748211213832\" duration=\"15032000\" />\r\n      <workItem from=\"1748314389828\" duration=\"7522000\" />\r\n      <workItem from=\"1748364255787\" duration=\"24348000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"&quot;Core del Proyecto&quot;\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1744996413634</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1744996413634</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Modelo SVM + 4 kernels\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746911955353</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746911955353</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Modelo SVM + 4 kernels\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746912126485</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746912126485</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Modelo SVM + 4 kernels\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746912586028</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746912586029</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Modelo SVM 4 kernels Valoración\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747204785098</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747204785098</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"SVM + RF Valoracion y Probabilidad\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747240693624</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747240693624</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"METRICAS SVM + RF\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747627592994</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747627592994</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"METRICAS SVM + RF\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747719570531</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747719570531</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"METRICAS SVM + RF\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747720708524</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747720708524</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"Requeriments\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747786547941</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747786547941</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"actualizacion de rutas\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747787537579</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747787537579</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"Modelo XGbosst\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747805536670</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747805536670</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"CI Github\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747806582951</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747806582951</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"CI Github\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747806732864</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747806732864</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"CI Github\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747806983311</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747806983311</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00016\" summary=\"CI Github\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747807223426</created>\r\n      <option name=\"number\" value=\"00016\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747807223426</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00017\" summary=\"CI Github\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1747812382690</created>\r\n      <option name=\"number\" value=\"00017\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1747812382690</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00018\" summary=\"WebScrapping + Registro\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1748134688255</created>\r\n      <option name=\"number\" value=\"00018\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1748134688255</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00019\" summary=\"WebScrapping + Registro\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1748149605821</created>\r\n      <option name=\"number\" value=\"00019\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1748149605821</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00020\" summary=\"Funcion de Registro y Inicio de sesión + token\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1748236131936</created>\r\n      <option name=\"number\" value=\"00020\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1748236131936</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"21\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"&quot;Core del Proyecto&quot;\" />\r\n    <MESSAGE value=\"&quot;Modelo SVM&quot;\" />\r\n    <MESSAGE value=\"Modelo SVM\" />\r\n    <MESSAGE value=\"Modelo SVM + 4 kernels\" />\r\n    <MESSAGE value=\"Modelo SVM 4 kernels Valoración\" />\r\n    <MESSAGE value=\"SVM + RF Valoracion y Probabilidad\" />\r\n    <MESSAGE value=\"METRICAS SVM + RF\" />\r\n    <MESSAGE value=\"Requeriments\" />\r\n    <MESSAGE value=\"actualizacion de rutas\" />\r\n    <MESSAGE value=\"Modelo XGbosst\" />\r\n    <MESSAGE value=\"CI Github\" />\r\n    <MESSAGE value=\"WebScrapping + Registro\" />\r\n    <MESSAGE value=\"Funcion de Registro y Inicio de sesión + token\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Funcion de Registro y Inicio de sesión + token\" />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/Dengue_Backend$Dengue_Backend.coverage\" NAME=\"Dengue_Backend Coverage Results\" MODIFIED=\"1748408612623\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 5aa3c1f39f68047a0407db766e66decb4dbd600f)
++++ b/.idea/workspace.xml	(date 1749058020806)
+@@ -5,17 +5,15 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Funcion de Registro y Inicio de sesión + token">
+-      <change afterPath="$PROJECT_DIR$/db/evaluacion.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/rutas/rutas_evaluaciones.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/Dengue_Backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Dengue_Backend.iml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/db/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/__init__.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/modelo/modelo_sintoma.py" beforeDir="false" afterPath="$PROJECT_DIR$/modelo/modelo_sintoma.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/modeloML/modeloRF.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/modeloRF.ipynb" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/modeloML/modeloSVM2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/modeloSVM2.ipynb" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/db/evaluacion.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/evaluacion.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/rutas/rutas_sintoma.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/rutas_sintoma.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/utilidades/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/__init__.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/utilidades/token.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/token.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/servicios/servicio_riesgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_riesgo.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -74,7 +72,7 @@
+     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+     &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+-    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+ }</component>
+@@ -97,7 +95,7 @@
+       <option name="PARENT_ENVS" value="true" />
+       <option name="SDK_HOME" value="" />
+       <option name="WORKING_DIRECTORY" value="" />
+-      <option name="IS_MODULE_SDK" value="false" />
++      <option name="IS_MODULE_SDK" value="true" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+@@ -108,8 +106,8 @@
+   <component name="SharedIndexes">
+     <attachedChunks>
+       <set>
+-        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-PY-251.25410.159" />
+-        <option value="bundled-python-sdk-e0ed3721d81e-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.159" />
++        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-PY-251.23774.444" />
++        <option value="bundled-python-sdk-890ed5b35930-d9c5bdb153f4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.23774.444" />
+       </set>
+     </attachedChunks>
+   </component>
+@@ -154,6 +152,13 @@
+       <workItem from="1748211213832" duration="15032000" />
+       <workItem from="1748314389828" duration="7522000" />
+       <workItem from="1748364255787" duration="24348000" />
++      <workItem from="1748537462187" duration="3225000" />
++      <workItem from="1748925148522" duration="4961000" />
++      <workItem from="1748986057949" duration="2553000" />
++      <workItem from="1749010667403" duration="4249000" />
++      <workItem from="1749015088793" duration="31000" />
++      <workItem from="1749015155484" duration="5655000" />
++      <workItem from="1749056163307" duration="1183000" />
+     </task>
+     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
+       <option name="closed" value="true" />
+@@ -338,6 +343,6 @@
+     <option name="LAST_COMMIT_MESSAGE" value="Funcion de Registro y Inicio de sesión + token" />
+   </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1748408612623" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
++    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1749056396304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Black\">\r\n    <option name=\"sdkName\" value=\"Python 3.13 (Dengue_Backend) (2)\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 5aa3c1f39f68047a0407db766e66decb4dbd600f)
++++ b/.idea/misc.xml	(date 1749015803442)
+@@ -3,4 +3,5 @@
+   <component name="Black">
+     <option name="sdkName" value="Python 3.13 (Dengue_Backend) (2)" />
+   </component>
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 virtualenv at C:\Users\mabel\PycharmProjects\Dengue_Backend\.venv" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
