@@ -1,11 +1,12 @@
 import google.generativeai as genai
+
+from config import settings
 from modelo import FormularioSintomas
 from utilidades import get_modelo, get_metricas, get_preprocesadores
 import pandas as pd
 
 # Configuración de la API de Gemini
-genai.configure(api_key="AIzaSyDdi9rjbvCmlEkuk9bsR0L_v2ojr04WHJs")  # Asegúrate de reemplazar con tu clave de API
-
+genai.configure(api_key=settings.API_GEMINI)  # Asegúrate de reemplazar con tu clave de API
 
 def calcular_riesgo(sintomas: FormularioSintomas):
     modelo = get_modelo()  # Cargar los modelos

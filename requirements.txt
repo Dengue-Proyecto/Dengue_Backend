@@ -13,3 +13,4 @@ aiomysql
 passlib[bcrypt]
 pydantic-settings
 pyjwt[crypto]
+google-generativeai
