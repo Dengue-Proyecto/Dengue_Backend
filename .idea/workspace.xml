@@ -4,15 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Despliegue">
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="CI">
+      <change afterPath="$PROJECT_DIR$/tests/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_servicio_riesgo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_servicio_usuario.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_05_2025_14_03_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_28_05_2025_14_03__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_06_2025_12_31_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_06_2025_12_31__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_06_2025_20_23_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_06_2025_20_23__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rutas/rutas_sintoma.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/rutas_sintoma.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/servicios/servicio_riesgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_riesgo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/servicios/servicio_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_usuario.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilidades/token.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/token.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +28,7 @@
         <option value="FastAPI main" />
         <option value="FastAPI test_main" />
         <option value="Jupyter Notebook" />
+        <option value="Python Unit Test" />
         <option value="Python Script" />
       </list>
     </option>
@@ -163,6 +167,8 @@
       <workItem from="1749744707000" duration="1328000" />
       <workItem from="1749830495185" duration="2633000" />
       <workItem from="1749921969157" duration="2938000" />
+      <workItem from="1750221465203" duration="7739000" />
+      <workItem from="1750259289072" duration="14481000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -348,7 +354,23 @@
       <option name="project" value="LOCAL" />
       <updated>1749093053613</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Actualización WebScrap">
+      <option name="closed" value="true" />
+      <created>1750223150116</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1750223150116</updated>
+    </task>
+    <task id="LOCAL-00025" summary="CI">
+      <option name="closed" value="true" />
+      <created>1750227941525</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1750227941525</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -369,11 +391,12 @@
     <MESSAGE value="WebScrapping + Registro" />
     <MESSAGE value="Funcion de Registro y Inicio de sesión + token" />
     <MESSAGE value="Agregar modelo de Evaluacion y rutas para evaluar riesgo y obtener evaluaciones" />
-    <MESSAGE value="CI" />
     <MESSAGE value="Despliegue" />
-    <option name="LAST_COMMIT_MESSAGE" value="Despliegue" />
+    <MESSAGE value="Actualización WebScrap" />
+    <MESSAGE value="CI" />
+    <option name="LAST_COMMIT_MESSAGE" value="CI" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1749922241999" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1750277349946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

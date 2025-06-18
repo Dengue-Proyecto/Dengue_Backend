@@ -20,13 +20,14 @@ origins = [
     "https://riesgodengue.netlify.app",  # URL de tu frontend si está desplegado en producción
 ]
 
+# Configuración de CORS - Forma estándar
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Permitir los dominios del frontend
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Permitir todos los métodos (GET, POST, PUT, DELETE)
-    allow_headers=["*"],  # Permitir todos los encabezados
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"],
+    allow_headers=["*"],
 )
+
 app.include_router(sintoma_router)
 app.include_router(usuario_router)
-

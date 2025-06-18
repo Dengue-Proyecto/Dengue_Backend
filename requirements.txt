@@ -14,3 +14,5 @@ passlib[bcrypt]
 pydantic-settings
 pyjwt[crypto]
 google-generativeai
+pytest
+pytest-asyncio

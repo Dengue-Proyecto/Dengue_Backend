@@ -30,7 +30,7 @@ async def evaluar_riesgo(
     riesgo = convertir_riesgo(probabilidad_riesgo)
 
     # Construir diccionario de síntomas solo con los marcados como True
-    sintomas_dict = sintomas.dict()
+    sintomas_dict = sintomas.model_dump()
     # Sintomas booleanos marcados en True
     sintomas_identificados = [k for k, v in sintomas_dict.items() if isinstance(v, bool) and v]
     # Añadir días de fiebre si > 0

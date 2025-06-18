@@ -103,7 +103,7 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     tiempo_promedio = round(sum(m["prediction_time"] for m in metricas_pct.values()) / n, 4)
 
     # Filtrar síntomas marcados como True
-    sintomas_dict = sintomas.dict()
+    sintomas_dict = sintomas.model_dump()
     sintomas_identificados = [k for k, v in sintomas_dict.items() if isinstance(v, bool) and v]
     if sintomas_dict.get("dias_de_fiebre", 0) > 0:
         sintomas_identificados.append(f"días de fiebre: {sintomas_dict['dias_de_fiebre']}")

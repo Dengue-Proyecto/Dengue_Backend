@@ -85,7 +85,7 @@ async def registrar_usuario(usuario: UsuarioRegistro):
     if existe:
         raise HTTPException(status_code=400, detail="Usuario ya registrado")
 
-    usuario_dict = usuario.dict()
+    usuario_dict = usuario.model_dump()
     usuario_dict["contrasena"] = hash_password(usuario_dict["contrasena"])
 
     await Usuario.create(**usuario_dict)
