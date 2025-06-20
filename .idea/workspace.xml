@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Pruebas Unitarias de funcionalidades" />
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Pruebas Unitarias de funcionalidades">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -97,8 +100,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-PY-251.25410.159" />
-        <option value="bundled-python-sdk-e0ed3721d81e-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.25410.159" />
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-PY-251.26094.141" />
+        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
       </set>
     </attachedChunks>
   </component>
@@ -156,7 +159,10 @@
       <workItem from="1749830495185" duration="2633000" />
       <workItem from="1749921969157" duration="2938000" />
       <workItem from="1750221465203" duration="7739000" />
-      <workItem from="1750259289072" duration="14979000" />
+      <workItem from="1750259289072" duration="16702000" />
+      <workItem from="1750305968506" duration="150000" />
+      <workItem from="1750306290335" duration="3060000" />
+      <workItem from="1750392002994" duration="965000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -366,7 +372,23 @@
       <option name="project" value="LOCAL" />
       <updated>1750277680679</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Pruebas Unitarias de funcionalidades">
+      <option name="closed" value="true" />
+      <created>1750278093917</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1750278093917</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Pruebas Unitarias de funcionalidades">
+      <option name="closed" value="true" />
+      <created>1750278336247</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1750278336247</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -394,6 +416,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Pruebas Unitarias de funcionalidades" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1750277349946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1750392030342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
