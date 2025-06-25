@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Pruebas Unitarias de funcionalidades">
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="CI">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modelo/modelo_sintoma.py" beforeDir="false" afterPath="$PROJECT_DIR$/modelo/modelo_sintoma.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rutas/rutas_sintoma.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/rutas_sintoma.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +164,9 @@
       <workItem from="1750259289072" duration="16702000" />
       <workItem from="1750305968506" duration="150000" />
       <workItem from="1750306290335" duration="3060000" />
-      <workItem from="1750392002994" duration="965000" />
+      <workItem from="1750392002994" duration="2594000" />
+      <workItem from="1750529192650" duration="6021000" />
+      <workItem from="1750874310841" duration="1727000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -388,7 +392,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750278336247</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="CI">
+      <option name="closed" value="true" />
+      <created>1750393487250</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1750393487250</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -411,11 +423,11 @@
     <MESSAGE value="Agregar modelo de Evaluacion y rutas para evaluar riesgo y obtener evaluaciones" />
     <MESSAGE value="Despliegue" />
     <MESSAGE value="Actualización WebScrap" />
-    <MESSAGE value="CI" />
     <MESSAGE value="Pruebas Unitarias de funcionalidades" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pruebas Unitarias de funcionalidades" />
+    <MESSAGE value="CI" />
+    <option name="LAST_COMMIT_MESSAGE" value="CI" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1750392030342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1750875542116" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

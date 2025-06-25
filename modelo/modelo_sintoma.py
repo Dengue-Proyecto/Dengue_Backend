@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 # Modelo para los síntomas del dengue
@@ -13,6 +14,6 @@ class FormularioSintomas(BaseModel):
     dolor_abdominal: bool
     nauseas_vomitos: bool
     diarrea: bool
-    tiempo_inicial: int
-    tiempo_final: int
-    tiempo_evaluacion: int
+    tiempo_inicial: Optional[int] = None
+    tiempo_final: Optional[int] = None
+    tiempo_evaluacion: Optional[int] = None
