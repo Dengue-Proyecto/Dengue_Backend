@@ -16,3 +16,4 @@ pyjwt[crypto]
 google-generativeai
 pytest
 pytest-asyncio
+python-multipart

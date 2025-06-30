@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Depends
+from fastapi.security import OAuth2PasswordRequestForm
 from servicios import consulta_cmp, registrar_usuario, login_usuario
 from modelo import UsuarioRegistro, UsuarioLogin
 
@@ -16,3 +17,11 @@ async def ruta_registrar_usuario(usuario: UsuarioRegistro):
 async def ruta_login_usuario(data: UsuarioLogin):
     return await login_usuario(data)
 
+# Endpoint para OAuth2/Swagger (Form data)
+@router.post("/auth/token")
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+    data = UsuarioLogin(
+        numero_colegiatura=form_data.username,
+        contrasena=form_data.password
+    )
+    return await login_usuario(data)
