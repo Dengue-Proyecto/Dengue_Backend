@@ -152,6 +152,6 @@ async def evaluar_riesgo_simple(
         await EvaluacionSintoma.create(evaluacion=evaluacion, sintoma=sintoma_obj)
 
     return {
-        "riesgo_lineal": resultados.get("riesgo_lineal"),
-        "probabilidad_lineal_pct": resultados.get("probabilidad_lineal_pct")
+        "riesgo_random_forest": resultados.get("riesgo_random_forest"),
+        "probabilidad_random_forest_pct": resultados.get("probabilidad_random_forest_pct"),
     }
