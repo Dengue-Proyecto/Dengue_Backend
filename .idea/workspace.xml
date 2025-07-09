@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="CI">
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Actualizacion de Auth">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rutas/rutas_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/rutas_usuario.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilidades/token.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modeloML/modeloRF.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/modeloRF.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modeloML/modeloSVM2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/modeloSVM2.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modeloML/modeloXGboost.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/modeloML/modeloXGboost.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +170,8 @@
       <workItem from="1750874310841" duration="2596000" />
       <workItem from="1751154621888" duration="12365000" />
       <workItem from="1751254897292" duration="345000" />
-      <workItem from="1751322132392" duration="4505000" />
+      <workItem from="1751322132392" duration="11684000" />
+      <workItem from="1751768925096" duration="4885000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -420,7 +421,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751322241702</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Actualizacion de Auth">
+      <option name="closed" value="true" />
+      <created>1751326886856</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1751326886856</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -446,9 +455,10 @@
     <MESSAGE value="Pruebas Unitarias de funcionalidades" />
     <MESSAGE value="Adicionales ML" />
     <MESSAGE value="CI" />
-    <option name="LAST_COMMIT_MESSAGE" value="CI" />
+    <MESSAGE value="Actualizacion de Auth" />
+    <option name="LAST_COMMIT_MESSAGE" value="Actualizacion de Auth" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1751326534719" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1751771941834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
