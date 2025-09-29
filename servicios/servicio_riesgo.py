@@ -118,7 +118,7 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     interpretacion_prompt += "\nPor favor, proporciona una recomendación médica basada en estos síntomas."
 
     # Generar la interpretación usando Gemini
-    response = genai.GenerativeModel('gemini-1.5-flash')  # Asegúrate de usar el modelo adecuado
+    response = genai.GenerativeModel('gemini-2.5-flash')  # Asegúrate de usar el modelo adecuado
     gemini_response = response.generate_content(interpretacion_prompt)
 
     interpretacion = gemini_response.text

@@ -82,7 +82,7 @@ async def obtener_mis_evaluaciones(usuario_actual: str = Depends(obtener_usuario
             'id': ev.id,
             "fecha": ev.fecha.isoformat(),
             "riesgo": ev.riesgo,
-            "riesgo_real": ev.riesgo_real,
+            "resultado": ev.resultado,
             "sintomas_identificados": sintomas,
             "cantidad_sintomas": cantidad_sintomas,
             "tiempo_inicial": ev.tiempo_inicial.isoformat(),
@@ -172,20 +172,20 @@ async def actualizar_diagnostico_real(
     if not evaluacion:
         raise HTTPException(status_code=404, detail="Evaluación no encontrada")
 
-    # Validar que el riesgo_real sea válido
+    # Validar que el resultado sea válido
     riesgos_validos = ['bajo', 'medio', 'alto', 'negativo', 'positivo'] # se pueden editar los valores aceptables
-    if diagnostico.riesgo_real not in riesgos_validos:
+    if diagnostico.resultado not in riesgos_validos:
         raise HTTPException(
             status_code=400,
             detail=f"Riesgo real debe ser uno de: {', '.join(riesgos_validos)}"
         )
 
     # Actualizar la evaluación con el diagnóstico real
-    evaluacion.riesgo_real = diagnostico.riesgo_real
+    evaluacion.resultado = diagnostico.resultado
     await evaluacion.save()
 
     return {
         "mensaje": "Diagnóstico real actualizado correctamente",
         "evaluacion_id": evaluacion_id,
-        "riesgo_real": diagnostico.riesgo_real
+        "resultado": diagnostico.resultado
     }
