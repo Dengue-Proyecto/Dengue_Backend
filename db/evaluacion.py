@@ -9,6 +9,7 @@ class Evaluacion(Model):
     probabilidad = fields.FloatField()  # Para almacenar la probabilidad calculada (ejemplo: 0.265)
     tiempo_inicial = fields.DatetimeField()
     tiempo_final = fields.DatetimeField()
+    riesgo_real = fields.CharField(max_length=10, null=True)  # 'bajo', 'medio', 'alto', 'negativo' - diagnosticado por doctor
 
     evaluacion_sintomas: fields.ReverseRelation["EvaluacionSintoma"]  # relación inversa
 

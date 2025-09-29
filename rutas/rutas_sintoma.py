@@ -1,7 +1,7 @@
 from datetime import datetime, UTC, timezone
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from servicios import calcular_riesgo
-from modelo import FormularioSintomas
+from modelo import FormularioSintomas, ActualizarDiagnostico
 from utilidades import obtener_usuario_actual
 from db import Evaluacion, EvaluacionSintoma, Sintoma
 
@@ -79,8 +79,10 @@ async def obtener_mis_evaluaciones(usuario_actual: str = Depends(obtener_usuario
         cantidad_sintomas = len(sintomas)
         tiempo_eval_segundos = (ev.tiempo_final - ev.tiempo_inicial).total_seconds()
         resultados.append({
+            'id': ev.id,
             "fecha": ev.fecha.isoformat(),
             "riesgo": ev.riesgo,
+            "riesgo_real": ev.riesgo_real,
             "sintomas_identificados": sintomas,
             "cantidad_sintomas": cantidad_sintomas,
             "tiempo_inicial": ev.tiempo_inicial.isoformat(),
@@ -154,4 +156,36 @@ async def evaluar_riesgo_simple(
     return {
         "riesgo_random_forest": resultados.get("riesgo_random_forest"),
         "probabilidad_random_forest_pct": resultados.get("probabilidad_random_forest_pct"),
+    }
+
+@router.put("/evaluacion/{evaluacion_id}")
+async def actualizar_diagnostico_real(
+    evaluacion_id: int,
+    diagnostico: ActualizarDiagnostico,
+    usuario_actual: str = Depends(obtener_usuario_actual)
+):
+    """
+    Endpoint para que un doctor actualice el riesgo real después de pruebas de laboratorio
+    """
+    # Buscar la evaluación
+    evaluacion = await Evaluacion.get_or_none(id=evaluacion_id)
+    if not evaluacion:
+        raise HTTPException(status_code=404, detail="Evaluación no encontrada")
+
+    # Validar que el riesgo_real sea válido
+    riesgos_validos = ['bajo', 'medio', 'alto', 'negativo', 'positivo'] # se pueden editar los valores aceptables
+    if diagnostico.riesgo_real not in riesgos_validos:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Riesgo real debe ser uno de: {', '.join(riesgos_validos)}"
+        )
+
+    # Actualizar la evaluación con el diagnóstico real
+    evaluacion.riesgo_real = diagnostico.riesgo_real
+    await evaluacion.save()
+
+    return {
+        "mensaje": "Diagnóstico real actualizado correctamente",
+        "evaluacion_id": evaluacion_id,
+        "riesgo_real": diagnostico.riesgo_real
     }

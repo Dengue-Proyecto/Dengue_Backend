@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/modelo/__init__.py">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/modelo/__init__.py" />
+              <option name="originalContent" value="from .modelo_sintoma import FormularioSintomas&#10;from .modelo_usuario import UsuarioRegistro&#10;from .modelo_usuario import UsuarioLogin&#10;from .modelo_diagnostico import ActualizarDiagnostico" />
+              <option name="updatedContent" value="from .modelo_sintoma import FormularioSintomas&#13;&#10;from .modelo_usuario import UsuarioRegistro&#13;&#10;from .modelo_usuario import UsuarioLogin&#13;&#10;from .modelo_diagnostico import ActualizarDiagnostico" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
