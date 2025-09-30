@@ -98,11 +98,27 @@ async def evaluar_riesgo_simple(
 
     # Construir diccionario de síntomas solo con los marcados como True
     sintomas_dict = sintomas.model_dump()
-    # Sintomas booleanos marcados en True
-    sintomas_identificados = [k for k, v in sintomas_dict.items() if isinstance(v, bool) and v]
+
+    # Sintomas booleanos marcados en True con nombres legibles
+    sintomas_legibles = {
+        'dolor_cabeza_severo': 'Dolor de cabeza severo',
+        'dolor_detras_ojos': 'Dolor detrás de los ojos',
+        'dolor_articular_muscular': 'Dolor articular/muscular',
+        'sabor_metalico_boca': 'Sabor metálico en la boca',
+        'perdida_apetito': 'Pérdida de apetito',
+        'dolor_abdominal': 'Dolor abdominal',
+        'nauseas_vomitos': 'Náuseas o vómitos',
+        'diarrea': 'Diarrea'
+    }
+
+    sintomas_identificados = []
+    for k, v in sintomas_dict.items():
+        if isinstance(v, bool) and v and k in sintomas_legibles:
+            sintomas_identificados.append(sintomas_legibles[k])
+
     # Añadir días de fiebre si > 0
     if sintomas_dict.get("dias_de_fiebre", 0) > 0:
-        sintomas_identificados.append(f"días de fiebre: {sintomas_dict['dias_de_fiebre']}")
+        sintomas_identificados.append(f"Días de fiebre: {sintomas_dict['dias_de_fiebre']}")
 
     fecha_utc = datetime.now(UTC)
 
@@ -137,8 +153,9 @@ async def evaluar_riesgo_simple(
     return {
         "riesgo_random_forest": resultados.get("riesgo_random_forest"),
         "probabilidad_random_forest_pct": resultados.get("probabilidad_random_forest_pct"),
+        "sintomas_identificados": sintomas_identificados,
+        "fecha_evaluacion": fecha_utc.isoformat()
     }
-
 
 @router.get("/mis_evaluaciones")
 async def obtener_mis_evaluaciones(usuario_actual: str = Depends(obtener_usuario_actual)):

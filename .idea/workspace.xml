@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Se implementó la funcionalidad de refresh tokens para simular sesiones activas">
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Ahora hay dos resultados bajo o alto y segmentación de endpoint para el uso de gemini o no">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rutas/rutas_sintoma.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/rutas_sintoma.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/servicios/servicio_riesgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_riesgo.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +192,8 @@
       <workItem from="1759010981422" duration="8048000" />
       <workItem from="1759084540712" duration="15676000" />
       <workItem from="1759164503715" duration="2455000" />
-      <workItem from="1759196947033" duration="10372000" />
+      <workItem from="1759196947033" duration="10713000" />
+      <workItem from="1759246552481" duration="4177000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -507,7 +507,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759213380851</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Ahora hay dos resultados bajo o alto y segmentación de endpoint para el uso de gemini o no">
+      <option name="closed" value="true" />
+      <created>1759216839482</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1759216839482</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -537,9 +545,10 @@
     <MESSAGE value="nuevo campo para el nuevo indicador&#10;Nueva ruta" />
     <MESSAGE value="Se modificó el campo de riesgo real a resultado" />
     <MESSAGE value="Se implementó la funcionalidad de refresh tokens para simular sesiones activas" />
-    <option name="LAST_COMMIT_MESSAGE" value="Se implementó la funcionalidad de refresh tokens para simular sesiones activas" />
+    <MESSAGE value="Ahora hay dos resultados bajo o alto y segmentación de endpoint para el uso de gemini o no" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ahora hay dos resultados bajo o alto y segmentación de endpoint para el uso de gemini o no" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759210802584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759246665838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
