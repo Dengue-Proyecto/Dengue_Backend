@@ -6,14 +6,21 @@ from utilidades import get_modelo, get_metricas, get_preprocesadores
 import pandas as pd
 
 # Configuración de la API de Gemini
-genai.configure(api_key=settings.API_GEMINI)  # Asegúrate de reemplazar con tu clave de API
+genai.configure(api_key=settings.API_GEMINI)
 
-def calcular_riesgo(sintomas: FormularioSintomas):
-    modelo = get_modelo()  # Cargar los modelos
-    metricas = get_metricas()  # Cargar las métricas
-    scaler, pca = get_preprocesadores()  # Cargar los preprocesadores
+def calcular_riesgo(sintomas: FormularioSintomas, usar_gemini: bool = True):
+    """
+    Calcula el riesgo de dengue basado en los síntomas.
 
-    # Convertir los síntomas del formulario en una lista de valores 0 y 1
+    Args:
+        sintomas: Formulario con los síntomas del paciente
+        usar_gemini: Si es True, genera interpretación con Gemini. Si es False, omite Gemini.
+    """
+    modelo = get_modelo()
+    metricas = get_metricas()
+    scaler, pca = get_preprocesadores()
+
+    # Convertir los síntomas del formulario en una lista de valores
     datos = [
         sintomas.dias_de_fiebre,
         sintomas.dolor_cabeza_severo,
@@ -58,12 +65,10 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     probabilidad_random_forest = float(modelo["random_forest"].predict_proba(df_pca)[0][1])
     probabilidad_xgboost = float(modelo["xgboost"].predict_proba(df_pca)[0][1])
 
-    # Función para convertir la probabilidad a clasificación de riesgo
+    # Función MODIFICADA para convertir la probabilidad a clasificación de riesgo (solo bajo o alto)
     def convertir_riesgo(prob):
-        if prob < 0.3:
+        if prob < 0.4:
             return 'bajo'
-        elif prob < 0.7:
-            return 'medio'
         else:
             return 'alto'
 
@@ -84,9 +89,9 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     probabilidad_xgboost_pct = round(probabilidad_xgboost * 100, 2)
 
     # Convertir las métricas en porcentaje excepto prediction_time
-    metricas_pct = {}  # Aquí es donde se define correctamente 'metricas_pct'
-    for modelo, met in metricas.items():
-        metricas_pct[modelo] = {
+    metricas_pct = {}
+    for modelo_key, met in metricas.items():
+        metricas_pct[modelo_key] = {
             "accuracy": round(met["accuracy"] * 100, 2),
             "auc_roc": round(met["auc_roc"] * 100, 2),
             "recall": round(met["recall"] * 100, 2),
@@ -102,29 +107,8 @@ def calcular_riesgo(sintomas: FormularioSintomas):
     recall_promedio = round(sum(m["recall"] for m in metricas_pct.values()) / n, 2)
     tiempo_promedio = round(sum(m["prediction_time"] for m in metricas_pct.values()) / n, 4)
 
-    # Filtrar síntomas marcados como True
-    sintomas_dict = sintomas.model_dump()
-    sintomas_identificados = [k for k, v in sintomas_dict.items() if isinstance(v, bool) and v]
-    if sintomas_dict.get("dias_de_fiebre", 0) > 0:
-        sintomas_identificados.append(f"días de fiebre: {sintomas_dict['dias_de_fiebre']}")
-
-    # Generar la interpretación usando la API de Gemini solo con los síntomas identificados
-    interpretacion_prompt = f"Eres un experto médico en enfermedades tropicales. Según los siguientes síntomas del paciente, brinda una interpretación breve, clara y en español sobre el nivel de riesgo de dengue y recomendaciones básicas.\n\n" \
-                            f"Síntomas:\n"
-
-    for sintoma in sintomas_identificados:
-        interpretacion_prompt += f"- {sintoma.replace('_', ' ').capitalize()}: {'Sí' if sintoma != 'dias_de_fiebre' else sintomas_dict['dias_de_fiebre']}\n"
-
-    interpretacion_prompt += "\nPor favor, proporciona una recomendación médica basada en estos síntomas."
-
-    # Generar la interpretación usando Gemini
-    response = genai.GenerativeModel('gemini-2.5-flash')  # Asegúrate de usar el modelo adecuado
-    gemini_response = response.generate_content(interpretacion_prompt)
-
-    interpretacion = gemini_response.text
-
-    # Devolver todos los resultados junto con la interpretación de Gemini
-    return {
+    # Preparar respuesta base (sin Gemini)
+    resultado = {
         "riesgo_lineal": riesgo_lineal,
         "riesgo_poli": riesgo_poli,
         "riesgo_rbf": riesgo_rbf,
@@ -138,9 +122,37 @@ def calcular_riesgo(sintomas: FormularioSintomas):
         "probabilidad_random_forest_pct": probabilidad_random_forest_pct,
         "probabilidad_xgboost_pct": probabilidad_xgboost_pct,
         "probabilidad_random_forest": probabilidad_random_forest,
-        "metricas": metricas_pct,  # Asegúrate de que metricas_pct esté definida
+        "metricas": metricas_pct,
         "precision_promedio": precision_promedio,
         "recall_promedio": recall_promedio,
-        "tiempo_promedio": tiempo_promedio,
-        "interpretacion": interpretacion  # La interpretación generada por Gemini
+        "tiempo_promedio": tiempo_promedio
     }
+
+    # Solo generar interpretación con Gemini si usar_gemini es True
+    if usar_gemini:
+        # Filtrar síntomas marcados como True
+        sintomas_dict = sintomas.model_dump()
+        sintomas_identificados = [k for k, v in sintomas_dict.items() if isinstance(v, bool) and v]
+        if sintomas_dict.get("dias_de_fiebre", 0) > 0:
+            sintomas_identificados.append(f"días de fiebre: {sintomas_dict['dias_de_fiebre']}")
+
+        # Generar la interpretación usando la API de Gemini
+        interpretacion_prompt = f"Eres un experto médico en enfermedades tropicales. Según los siguientes síntomas del paciente, brinda una interpretación breve, clara y en español sobre el nivel de riesgo de dengue y recomendaciones básicas.\n\n" \
+                                f"Síntomas:\n"
+
+        for sintoma in sintomas_identificados:
+            interpretacion_prompt += f"- {sintoma.replace('_', ' ').capitalize()}: {'Sí' if sintoma != 'dias_de_fiebre' else sintomas_dict['dias_de_fiebre']}\n"
+
+        interpretacion_prompt += "\nPor favor, proporciona una recomendación médica basada en estos síntomas."
+
+        try:
+            # Generar la interpretación usando Gemini
+            response = genai.GenerativeModel('gemini-2.5-flash')
+            gemini_response = response.generate_content(interpretacion_prompt)
+            interpretacion = gemini_response.text
+        except Exception as e:
+            interpretacion = f"No se pudo generar la interpretación: {str(e)}"
+
+        resultado["interpretacion"] = interpretacion
+
+    return resultado

@@ -13,18 +13,19 @@ async def evaluar_riesgo(
         sintomas: FormularioSintomas,
         usuario_actual: str = Depends(obtener_usuario_actual)
 ):
-    # Calcular riesgo
-    resultados = calcular_riesgo(sintomas)
+    """
+    Endpoint completo con interpretación de Gemini (para result.component)
+    """
+    # Calcular riesgo CON Gemini
+    resultados = calcular_riesgo(sintomas, usar_gemini=True)
 
     # Extraer la probabilidad calculada
     probabilidad_riesgo = resultados.get("probabilidad_random_forest")
 
     # Convertir la probabilidad a la clasificación correspondiente
     def convertir_riesgo(prob):
-        if prob < 0.3:
+        if prob < 0.4:
             return 'bajo'
-        elif prob < 0.7:
-            return 'medio'
         else:
             return 'alto'
 
@@ -70,46 +71,26 @@ async def evaluar_riesgo(
 
     return resultados
 
-@router.get("/mis_evaluaciones")
-async def obtener_mis_evaluaciones(usuario_actual: str = Depends(obtener_usuario_actual)):
-    evaluaciones = await Evaluacion.filter(usuario_id=int(usuario_actual)).prefetch_related("evaluacion_sintomas__sintoma").order_by("-fecha").all()
-    resultados = []
-    for ev in evaluaciones:
-        sintomas = [es.sintoma.nombre for es in ev.evaluacion_sintomas]  # lista de nombres
-        cantidad_sintomas = len(sintomas)
-        tiempo_eval_segundos = (ev.tiempo_final - ev.tiempo_inicial).total_seconds()
-        resultados.append({
-            'id': ev.id,
-            "fecha": ev.fecha.isoformat(),
-            "riesgo": ev.riesgo,
-            "resultado": ev.resultado,
-            "sintomas_identificados": sintomas,
-            "cantidad_sintomas": cantidad_sintomas,
-            "tiempo_inicial": ev.tiempo_inicial.isoformat(),
-            "tiempo_final": ev.tiempo_final.isoformat(),
-            "tiempo_evaluacion": int(tiempo_eval_segundos)
-        })
-
-    return resultados
-
 
 @router.post("/evaluar_riesgo_simple")
 async def evaluar_riesgo_simple(
         sintomas: FormularioSintomas,
         usuario_actual: str = Depends(obtener_usuario_actual)
 ):
-    # Calcular riesgo
-    resultados = calcular_riesgo(sintomas)
+    """
+    Endpoint simplificado SIN interpretación de Gemini (para result1.component)
+    Solo devuelve el riesgo de Random Forest
+    """
+    # Calcular riesgo SIN Gemini
+    resultados = calcular_riesgo(sintomas, usar_gemini=False)
 
     # Extraer la probabilidad calculada
     probabilidad_riesgo = resultados.get("probabilidad_random_forest")
 
     # Convertir la probabilidad a la clasificación correspondiente
     def convertir_riesgo(prob):
-        if prob < 0.3:
+        if prob < 0.4:
             return 'bajo'
-        elif prob < 0.7:
-            return 'medio'
         else:
             return 'alto'
 
@@ -158,6 +139,30 @@ async def evaluar_riesgo_simple(
         "probabilidad_random_forest_pct": resultados.get("probabilidad_random_forest_pct"),
     }
 
+
+@router.get("/mis_evaluaciones")
+async def obtener_mis_evaluaciones(usuario_actual: str = Depends(obtener_usuario_actual)):
+    evaluaciones = await Evaluacion.filter(usuario_id=int(usuario_actual)).prefetch_related("evaluacion_sintomas__sintoma").order_by("-fecha").all()
+    resultados = []
+    for ev in evaluaciones:
+        sintomas = [es.sintoma.nombre for es in ev.evaluacion_sintomas]
+        cantidad_sintomas = len(sintomas)
+        tiempo_eval_segundos = (ev.tiempo_final - ev.tiempo_inicial).total_seconds()
+        resultados.append({
+            'id': ev.id,
+            "fecha": ev.fecha.isoformat(),
+            "riesgo": ev.riesgo,
+            "resultado": ev.resultado,
+            "sintomas_identificados": sintomas,
+            "cantidad_sintomas": cantidad_sintomas,
+            "tiempo_inicial": ev.tiempo_inicial.isoformat(),
+            "tiempo_final": ev.tiempo_final.isoformat(),
+            "tiempo_evaluacion": int(tiempo_eval_segundos)
+        })
+
+    return resultados
+
+
 @router.put("/evaluacion/{evaluacion_id}")
 async def actualizar_diagnostico_real(
     evaluacion_id: int,
@@ -172,8 +177,8 @@ async def actualizar_diagnostico_real(
     if not evaluacion:
         raise HTTPException(status_code=404, detail="Evaluación no encontrada")
 
-    # Validar que el resultado sea válido
-    riesgos_validos = ['bajo', 'medio', 'alto', 'negativo', 'positivo'] # se pueden editar los valores aceptables
+    # Validar que el resultado sea válido (ahora solo bajo o alto)
+    riesgos_validos = ['bajo', 'alto', 'negativo', 'positivo']
     if diagnostico.resultado not in riesgos_validos:
         raise HTTPException(
             status_code=400,
