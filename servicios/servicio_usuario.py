@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from tortoise.expressions import Q
 from db import Usuario
 from modelo import UsuarioRegistro, UsuarioLogin
-from utilidades import hash_password, crear_token, verificar_password
+from utilidades import hash_password, crear_tokens, verificar_password
 
 def consulta_cmp(cmp_num: str):
     # Obtener cookies dinámicamente de las variables de entorno
@@ -97,5 +97,5 @@ async def login_usuario(data: UsuarioLogin):
     if not usuario or not verificar_password(data.contrasena, usuario.contrasena):
         raise HTTPException(status_code=401, detail="Número de colegiatura o contraseña incorrectos")
 
-    token = crear_token({"sub": str(usuario.id)})
-    return {"access_token": token, "token_type": "bearer"}
+    tokens = crear_tokens(str(usuario.id))
+    return {**tokens}
