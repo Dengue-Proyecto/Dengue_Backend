@@ -187,6 +187,31 @@ async def obtener_mis_evaluaciones(usuario_actual: str = Depends(obtener_usuario
 
     return resultados
 
+@router.get("/buscar_evaluacion/{codigo}")
+async def buscar_evaluacion_por_codigo(codigo: str):
+    """Buscar evaluación por código para seguimiento médico"""
+    evaluacion = await Evaluacion.get_or_none(codigo_evaluacion=codigo).prefetch_related("evaluacion_sintomas__sintoma")
+
+    if not evaluacion:
+        raise HTTPException(status_code=404, detail="Código de evaluación no encontrado")
+
+    sintomas = [es.sintoma.nombre for es in evaluacion.evaluacion_sintomas]
+    cantidad_sintomas = len(sintomas)
+    tiempo_eval_segundos = (evaluacion.tiempo_final - evaluacion.tiempo_inicial).total_seconds()
+
+    return {
+        'id': evaluacion.id,
+        'codigo_evaluacion': evaluacion.codigo_evaluacion,
+        "fecha": evaluacion.fecha.isoformat(),
+        "riesgo": evaluacion.riesgo,
+        "resultado": evaluacion.resultado,
+        "sintomas_identificados": sintomas,
+        "cantidad_sintomas": cantidad_sintomas,
+        "tiempo_inicial": evaluacion.tiempo_inicial.isoformat(),
+        "tiempo_final": evaluacion.tiempo_final.isoformat(),
+        "tiempo_evaluacion": int(tiempo_eval_segundos)
+    }
+
 @router.put("/evaluacion/{evaluacion_id}")
 async def actualizar_diagnostico_real(
     evaluacion_id: int,
