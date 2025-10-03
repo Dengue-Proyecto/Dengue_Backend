@@ -38,7 +38,12 @@ def consulta_cmp(cmp_num: str):
             'user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36')
 
         logger.info("Iniciando ChromeDriver...")
-        service = Service(ChromeDriverManager().install())
+        # Detectar si estoy en EC2 (ejemplo: por variable de entorno)
+        if os.environ.get("EC2_ENV", "false") == "true":
+            service = Service("/usr/bin/chromedriver")
+        else:
+            from webdriver_manager.chrome import ChromeDriverManager
+            service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=options)
 
         # Scripts anti-detección
