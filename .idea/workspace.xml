@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="CI">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/servicios/servicio_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_usuario.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +194,9 @@
       <workItem from="1759084540712" duration="15676000" />
       <workItem from="1759164503715" duration="2455000" />
       <workItem from="1759196947033" duration="10713000" />
-      <workItem from="1759246552481" duration="8394000" />
+      <workItem from="1759246552481" duration="9310000" />
+      <workItem from="1759296963181" duration="1559000" />
+      <workItem from="1759509950613" duration="4452000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -529,7 +534,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759259744020</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="CI">
+      <option name="closed" value="true" />
+      <created>1759262482496</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1759262482496</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,6 +577,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="CI" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759246665838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759514334222" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

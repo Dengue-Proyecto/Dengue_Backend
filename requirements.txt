@@ -17,3 +17,5 @@ google-generativeai
 pytest
 pytest-asyncio
 python-multipart
+selenium
+webdriver-manager
