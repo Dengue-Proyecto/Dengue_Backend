@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="CI">
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Ahora se implementa la webscraping con selenium">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/servicios/servicio_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_usuario.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/evaluacion.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/evaluacion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rutas/rutas_sintoma.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/rutas_sintoma.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilidades/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utilidades/utilidades.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/utilidades.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +198,7 @@
       <workItem from="1759196947033" duration="10713000" />
       <workItem from="1759246552481" duration="9310000" />
       <workItem from="1759296963181" duration="1559000" />
-      <workItem from="1759509950613" duration="4452000" />
+      <workItem from="1759509950613" duration="8193000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Core del Proyecto&quot;">
       <option name="closed" value="true" />
@@ -542,14 +544,21 @@
       <option name="project" value="LOCAL" />
       <updated>1759262482496</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Ahora se implementa la webscraping con selenium">
+      <option name="closed" value="true" />
+      <created>1759514764161</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1759514764161</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="&quot;Core del Proyecto&quot;" />
     <MESSAGE value="&quot;Modelo SVM&quot;" />
     <MESSAGE value="Modelo SVM" />
     <MESSAGE value="Modelo SVM + 4 kernels" />
@@ -574,9 +583,10 @@
     <MESSAGE value="Ahora hay dos resultados bajo o alto y segmentación de endpoint para el uso de gemini o no" />
     <MESSAGE value="Se modificó endpoint de riesgo simple para que devolviera sintomas y fecha" />
     <MESSAGE value="CI" />
-    <option name="LAST_COMMIT_MESSAGE" value="CI" />
+    <MESSAGE value="Ahora se implementa la webscraping con selenium" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ahora se implementa la webscraping con selenium" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759514334222" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759517346635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

@@ -2,7 +2,7 @@ from datetime import datetime, UTC, timezone
 from fastapi import APIRouter, Depends, HTTPException
 from servicios import calcular_riesgo
 from modelo import FormularioSintomas, ActualizarDiagnostico
-from utilidades import obtener_usuario_actual
+from utilidades import obtener_usuario_actual, generar_codigo_evaluacion
 from db import Evaluacion, EvaluacionSintoma, Sintoma
 
 router = APIRouter()
@@ -55,9 +55,12 @@ async def evaluar_riesgo(
     if sintomas.tiempo_evaluacion is not None:
         tiempo_evaluacion_dt = datetime.fromtimestamp(sintomas.tiempo_evaluacion / 1000, tz=timezone.utc)
 
+    codigo_evaluacion = generar_codigo_evaluacion()
+
     # Guardar en BD - usar fecha_utc como fallback si tiempo_inicial_dt o tiempo_final_dt son None
     evaluacion = await Evaluacion.create(
         usuario_id=int(usuario_actual),
+        codigo_evaluacion=codigo_evaluacion,
         riesgo=riesgo,
         probabilidad=probabilidad_riesgo,
         tiempo_inicial=tiempo_inicial_dt or fecha_utc,
@@ -136,9 +139,12 @@ async def evaluar_riesgo_simple(
     if sintomas.tiempo_evaluacion is not None:
         tiempo_evaluacion_dt = datetime.fromtimestamp(sintomas.tiempo_evaluacion / 1000, tz=timezone.utc)
 
+    codigo_evaluacion = generar_codigo_evaluacion()
+
     # Guardar en BD - usar fecha_utc como fallback si tiempo_inicial_dt o tiempo_final_dt son None
     evaluacion = await Evaluacion.create(
         usuario_id=int(usuario_actual),
+        codigo_evaluacion=codigo_evaluacion,
         riesgo=riesgo,
         probabilidad=probabilidad_riesgo,
         tiempo_inicial=tiempo_inicial_dt or fecha_utc,
@@ -153,6 +159,7 @@ async def evaluar_riesgo_simple(
     return {
         "riesgo_random_forest": resultados.get("riesgo_random_forest"),
         "probabilidad_random_forest_pct": resultados.get("probabilidad_random_forest_pct"),
+        "codigo_evaluacion": codigo_evaluacion,
         "sintomas_identificados": sintomas_identificados,
         "fecha_evaluacion": fecha_utc.isoformat()
     }
@@ -167,6 +174,7 @@ async def obtener_mis_evaluaciones(usuario_actual: str = Depends(obtener_usuario
         tiempo_eval_segundos = (ev.tiempo_final - ev.tiempo_inicial).total_seconds()
         resultados.append({
             'id': ev.id,
+            'codigo_evaluacion': ev.codigo_evaluacion,
             "fecha": ev.fecha.isoformat(),
             "riesgo": ev.riesgo,
             "resultado": ev.resultado,
@@ -178,7 +186,6 @@ async def obtener_mis_evaluaciones(usuario_actual: str = Depends(obtener_usuario
         })
 
     return resultados
-
 
 @router.put("/evaluacion/{evaluacion_id}")
 async def actualizar_diagnostico_real(

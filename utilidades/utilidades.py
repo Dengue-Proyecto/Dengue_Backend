@@ -1,3 +1,5 @@
+import uuid
+from datetime import datetime
 from pathlib import Path
 import json
 import joblib
@@ -44,3 +46,10 @@ def get_metricas():
     with open(ruta_metricas, "r") as f:
         metricas = json.load(f)
     return metricas
+
+#Función para generar código único de evaluación
+def generar_codigo_evaluacion() -> str:
+    """Genera un código único de 8 caracteres para seguimiento de evaluación"""
+    timestamp = str(int(datetime.now().timestamp()))[-4:]
+    unique_part = str(uuid.uuid4()).replace('-', '').upper()[:4]
+    return f"{timestamp}{unique_part}"

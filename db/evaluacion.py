@@ -4,12 +4,13 @@ from tortoise.models import Model
 class Evaluacion(Model):
     id = fields.IntField(pk=True)
     usuario = fields.ForeignKeyField("models.Usuario", related_name="evaluaciones")
-    fecha = fields.DatetimeField(auto_now_add=True)
+    codigo_evaluacion = fields.CharField(max_length=20, unique=True)
     riesgo = fields.CharField(max_length=10)  # 'bajo', 'medio', 'alto'
     probabilidad = fields.FloatField()  # Para almacenar la probabilidad calculada (ejemplo: 0.265)
+    resultado = fields.CharField(max_length=10,null=True)  # 'bajo', 'medio', 'alto', 'negativo' - diagnosticado por doctor
     tiempo_inicial = fields.DatetimeField()
     tiempo_final = fields.DatetimeField()
-    resultado = fields.CharField(max_length=10, null=True)  # 'bajo', 'medio', 'alto', 'negativo' - diagnosticado por doctor
+    fecha = fields.DatetimeField(auto_now_add=True)
 
     evaluacion_sintomas: fields.ReverseRelation["EvaluacionSintoma"]  # relación inversa
 
