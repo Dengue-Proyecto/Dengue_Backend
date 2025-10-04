@@ -7,6 +7,8 @@
     <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Actualización para función de consulta con selenium y webscrap">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/servicios/servicio_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_usuario.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,15 +197,7 @@
       <workItem from="1759246552481" duration="9310000" />
       <workItem from="1759296963181" duration="1559000" />
       <workItem from="1759509950613" duration="14379000" />
-      <workItem from="1759552083953" duration="5418000" />
-    </task>
-    <task id="LOCAL-00010" summary="Requeriments">
-      <option name="closed" value="true" />
-      <created>1747786547941</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1747786547941</updated>
+      <workItem from="1759552083953" duration="7171000" />
     </task>
     <task id="LOCAL-00011" summary="actualizacion de rutas">
       <option name="closed" value="true" />
@@ -589,7 +583,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759557247684</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Actualización para función de consulta con selenium y webscrap">
+      <option name="closed" value="true" />
+      <created>1759557711763</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1759557711763</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
