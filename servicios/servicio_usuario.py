@@ -69,6 +69,10 @@ def consulta_cmp(cmp_num: str):
             logger.info("Usando WebDriver Manager para descargar ChromeDriver")
             service = Service(ChromeDriverManager().install())
 
+        temp_profile = tempfile.mkdtemp(prefix='chrome_profile_')
+        options.add_argument(f'--user-data-dir={temp_profile}')
+        logger.info(f"Directorio temporal Chrome: {temp_profile}")
+
         driver = webdriver.Chrome(service=service, options=options)
 
         # Configurar timeouts
