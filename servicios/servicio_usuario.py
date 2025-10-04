@@ -1,6 +1,6 @@
 import time
 import logging
-import requests
+import platform
 import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -18,62 +18,77 @@ from utilidades import hash_password, crear_tokens, verificar_password
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
+def get_chrome_options():
+    """
+    Configura opciones de Chrome según el sistema operativo
+    """
+    options = webdriver.ChromeOptions()
+
+    # Detectar sistema operativo
+    sistema = platform.system()
+    logger.info(f"Sistema operativo detectado: {sistema}")
+
+    # Opciones comunes para todos los sistemas
+    options.add_argument('--headless=new')
+    options.add_argument('--disable-gpu')
+    options.add_argument('--window-size=1920,1080')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--disable-logging')
+    options.add_argument('--disable-background-networking')
+    options.add_argument('--disable-default-apps')
+    options.add_argument('--disable-sync')
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--ignore-ssl-errors')
+
+    # Opciones específicas para Linux (EC2)
+    if sistema == "Linux":
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-software-rasterizer')
+        options.binary_location = '/usr/bin/google-chrome'
+        logger.info("Configuración para Linux aplicada")
+
+    # Anti-detección
+    options.add_argument('--disable-blink-features=AutomationControlled')
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('useAutomationExtension', False)
+
+    # User agent según sistema
+    if sistema == "Linux":
+        user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36'
+    else:
+        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36'
+
+    options.add_argument(f'user-agent={user_agent}')
+
+    return options, user_agent
+
+
 def consulta_cmp(cmp_num: str):
     """
     Consulta información de un médico en el CMP usando Selenium
+    Compatible con Windows (desarrollo) y Linux (producción)
     """
     driver = None
 
     try:
-        options = webdriver.ChromeOptions()
-        # Opciones básicas para headless
-        options.add_argument('--headless=new')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--disable-gpu')
-        options.add_argument('--window-size=1920,1080')
-
-        # Opciones adicionales para servidores sin interfaz gráfica
-        options.add_argument('--disable-extensions')
-        options.add_argument('--disable-plugins')
-        options.add_argument('--disable-images')
-        options.add_argument('--disable-javascript')
-        options.add_argument('--disable-css')
-        options.add_argument('--disable-web-security')
-        options.add_argument('--allow-running-insecure-content')
-        options.add_argument('--ignore-certificate-errors')
-        options.add_argument('--ignore-ssl-errors')
-        options.add_argument('--ignore-certificate-errors-spki-list')
-        options.add_argument('--ignore-ssl-errors-list')
-        options.add_argument('--disable-background-timer-throttling')
-        options.add_argument('--disable-backgrounding-occluded-windows')
-        options.add_argument('--disable-renderer-backgrounding')
-        options.add_argument('--disable-features=TranslateUI')
-        options.add_argument('--disable-ipc-flooding-protection')
-
-        # Opciones críticas para EC2/contenedores
-        options.add_argument("--remote-debugging-port=9222")
-        options.add_argument('--single-process')  # Importante para recursos limitados
-        options.add_argument('--disable-background-networking')
-        options.add_argument('--disable-default-apps')
-        options.add_argument('--disable-sync')
-
-        # Anti-detección
-        options.add_argument('--disable-blink-features=AutomationControlled')
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_experimental_option('useAutomationExtension', False)
-        options.add_argument(
-            'user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36')
+        # Obtener opciones según el sistema
+        options, user_agent = get_chrome_options()
 
         logger.info("Iniciando ChromeDriver...")
 
-        # Solo usar ChromeDriverManager para descargar automáticamente
+        # Instalar ChromeDriver automáticamente
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=options)
 
+        # Configurar timeouts
+        driver.set_page_load_timeout(30)
+        driver.implicitly_wait(10)
+
         # Scripts anti-detección
         driver.execute_cdp_cmd('Network.setUserAgentOverride', {
-            "userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36'
+            "userAgent": user_agent
         })
         driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
 
@@ -100,7 +115,7 @@ def consulta_cmp(cmp_num: str):
         cmp_input.send_keys(cmp_num)
         logger.info(f"Campo CMP llenado: {cmp_num}")
 
-        # MeTODO 1: Ejecutar directamente el script que genera el token y envía el form
+        # Ejecutar reCAPTCHA y enviar formulario
         logger.info("Ejecutando reCAPTCHA y enviando formulario...")
 
         script = """
@@ -174,6 +189,9 @@ def consulta_cmp(cmp_num: str):
                 logger.error(f"Error buscando en iframes: {e}")
 
         if not table_element:
+            # Crear directorio debug si no existe
+            os.makedirs('debug', exist_ok=True)
+
             # Guardar HTML para debug
             with open('debug/respuesta_final.html', 'w', encoding='utf-8') as f:
                 f.write(driver.page_source)
