@@ -3,6 +3,7 @@ import logging
 import platform
 import os
 import tempfile
+import random
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -105,7 +106,9 @@ def consulta_cmp(cmp_num: str):
             EC.presence_of_element_located((By.NAME, 'cmp'))
         )
         cmp_input.clear()
+        # Después de llenar el campo CMP
         cmp_input.send_keys(cmp_num)
+        time.sleep(random.uniform(1, 3))  # Pausa aleatoria como humano
         logger.info(f"Campo CMP llenado: {cmp_num}")
 
         # Ejecutar reCAPTCHA y enviar formulario
