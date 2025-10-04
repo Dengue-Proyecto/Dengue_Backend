@@ -2,6 +2,7 @@ import time
 import logging
 import platform
 import os
+import tempfile
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -40,6 +41,7 @@ def get_chrome_options():
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--ignore-ssl-errors')
     options.add_argument('--incognito')  # Modo incógnito para evitar conflictos
+    options.add_argument(f'--user-data-dir={tempfile.mkdtemp()}')
 
     # Opciones específicas para Linux (EC2)
     if sistema == "Linux":

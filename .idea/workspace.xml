@@ -195,23 +195,7 @@
       <workItem from="1759246552481" duration="9310000" />
       <workItem from="1759296963181" duration="1559000" />
       <workItem from="1759509950613" duration="14379000" />
-      <workItem from="1759552083953" duration="2644000" />
-    </task>
-    <task id="LOCAL-00004" summary="Modelo SVM + 4 kernels">
-      <option name="closed" value="true" />
-      <created>1746912586028</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1746912586029</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Modelo SVM 4 kernels Valoración">
-      <option name="closed" value="true" />
-      <created>1747204785098</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1747204785098</updated>
+      <workItem from="1759552083953" duration="3583000" />
     </task>
     <task id="LOCAL-00006" summary="SVM + RF Valoracion y Probabilidad">
       <option name="closed" value="true" />
@@ -589,7 +573,23 @@
       <option name="project" value="LOCAL" />
       <updated>1759554110416</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Actualización para función de consulta con selenium y webscrap">
+      <option name="closed" value="true" />
+      <created>1759554802683</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1759554802683</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Actualización para función de consulta con selenium y webscrap">
+      <option name="closed" value="true" />
+      <created>1759555032405</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1759555032405</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -635,6 +635,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Actualización para función de consulta con selenium y webscrap" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759553803550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759554763054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
