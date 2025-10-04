@@ -19,53 +19,21 @@ from utilidades import hash_password, crear_tokens, verificar_password
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def get_chrome_options():
-    """
-    Configura opciones de Chrome según el sistema operativo
-    """
-    options = webdriver.ChromeOptions()
 
-    # Detectar sistema operativo
+def get_chrome_options():
+    options = webdriver.ChromeOptions()
     sistema = platform.system()
     logger.info(f"Sistema operativo detectado: {sistema}")
 
-    # Opciones comunes para todos los sistemas
     options.add_argument('--headless=new')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--window-size=1920,1080')
-    options.add_argument('--disable-extensions')
-    options.add_argument('--disable-logging')
-    options.add_argument('--disable-background-networking')
-    options.add_argument('--disable-default-apps')
-    options.add_argument('--disable-sync')
-    options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--ignore-ssl-errors')
-    options.add_argument('--incognito')  # Modo incógnito para evitar conflictos
-    options.add_argument(f'--user-data-dir={tempfile.mkdtemp()}')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
 
-    # Opciones específicas para Linux (EC2)
     if sistema == "Linux":
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--disable-software-rasterizer')
-        options.add_argument('--remote-debugging-port=9222')
-        options.add_argument('--disable-features=VizDisplayCompositor')
-        options.add_argument('--disable-blink-features=AutomationControlled')
-        options.add_argument('--disable-setuid-sandbox')
         options.binary_location = '/usr/bin/google-chrome'
         logger.info("Configuración para Linux aplicada")
 
-    # Anti-detección
-    options.add_argument('--disable-blink-features=AutomationControlled')
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option('useAutomationExtension', False)
-
-    # User agent según sistema
-    if sistema == "Linux":
-        user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36'
-    else:
-        user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36'
-
+    user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
     options.add_argument(f'user-agent={user_agent}')
 
     return options, user_agent
