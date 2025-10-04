@@ -30,7 +30,7 @@ def get_chrome_options():
     options.add_argument('--disable-dev-shm-usage')
 
     if sistema == "Linux":
-        options.binary_location = '/usr/bin/google-chrome'
+        # options.binary_location = '/usr/bin/google-chrome'
         logger.info("Configuración para Linux aplicada")
 
     user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
