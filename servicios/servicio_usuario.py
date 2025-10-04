@@ -5,6 +5,7 @@ import os
 import tempfile
 import random
 from selenium import webdriver
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -20,9 +21,8 @@ from utilidades import hash_password, crear_tokens, verificar_password
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
 def get_chrome_options():
-    options = webdriver.ChromeOptions()
+    options = uc.ChromeOptions()
     sistema = platform.system()
     logger.info(f"Sistema operativo detectado: {sistema}")
 
@@ -59,12 +59,6 @@ def consulta_cmp(cmp_num: str):
         if sistema == "Linux":
             # En producción (EC2), usar ChromeDriver instalado manualmente
             chromedriver_path = '/usr/local/bin/chromedriver'
-            if os.path.exists(chromedriver_path):
-                logger.info(f"Usando ChromeDriver manual: {chromedriver_path}")
-                service = Service(chromedriver_path)
-            else:
-                logger.warning("ChromeDriver manual no encontrado, usando WebDriver Manager")
-                service = Service(ChromeDriverManager().install())
         else:
             # En desarrollo (Windows/Mac), usar WebDriver Manager
             logger.info("Usando WebDriver Manager para descargar ChromeDriver")
@@ -74,7 +68,7 @@ def consulta_cmp(cmp_num: str):
         options.add_argument(f'--user-data-dir={temp_profile}')
         logger.info(f"Directorio temporal Chrome: {temp_profile}")
 
-        driver = webdriver.Chrome(service=service, options=options)
+        driver = uc.Chrome(options=options, version_main=141, headless=True)
 
         # Configurar timeouts
         driver.set_page_load_timeout(30)
