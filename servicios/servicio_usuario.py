@@ -5,7 +5,6 @@ import os
 import tempfile
 import random
 from selenium import webdriver
-import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -23,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 def get_chrome_options():
-    options = uc.ChromeOptions()
+    options = webdriver.ChromeOptions()
     sistema = platform.system()
     logger.info(f"Sistema operativo detectado: {sistema}")
 
@@ -75,7 +74,7 @@ def consulta_cmp(cmp_num: str):
         options.add_argument(f'--user-data-dir={temp_profile}')
         logger.info(f"Directorio temporal Chrome: {temp_profile}")
 
-        driver = uc.Chrome(options=options, version_main=141)
+        driver = webdriver.Chrome(service=service, options=options)
 
         # Configurar timeouts
         driver.set_page_load_timeout(30)
