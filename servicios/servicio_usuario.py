@@ -39,13 +39,7 @@ def get_chrome_options():
     options.add_argument('--disable-sync')
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--ignore-ssl-errors')
-
-    # Crear directorio temporal único para cada sesión
-    import tempfile
-    import uuid
-    temp_dir = os.path.join(tempfile.gettempdir(), f'chrome_profile_{uuid.uuid4().hex[:8]}')
-    options.add_argument(f'--user-data-dir={temp_dir}')
-    logger.info(f"Usando directorio temporal: {temp_dir}")
+    options.add_argument('--incognito')  # Modo incógnito para evitar conflictos
 
     # Opciones específicas para Linux (EC2)
     if sistema == "Linux":
