@@ -46,6 +46,10 @@ def get_chrome_options():
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--disable-software-rasterizer')
+        options.add_argument('--remote-debugging-port=9222')
+        options.add_argument('--disable-features=VizDisplayCompositor')
+        options.add_argument('--disable-blink-features=AutomationControlled')
+        options.add_argument('--disable-setuid-sandbox')
         options.binary_location = '/usr/bin/google-chrome'
         logger.info("Configuración para Linux aplicada")
 
@@ -78,8 +82,23 @@ def consulta_cmp(cmp_num: str):
 
         logger.info("Iniciando ChromeDriver...")
 
-        # Instalar ChromeDriver automáticamente
-        service = Service(ChromeDriverManager().install())
+        # Detectar sistema y usar ChromeDriver apropiado
+        sistema = platform.system()
+
+        if sistema == "Linux":
+            # En producción (EC2), usar ChromeDriver instalado manualmente
+            chromedriver_path = '/usr/local/bin/chromedriver'
+            if os.path.exists(chromedriver_path):
+                logger.info(f"Usando ChromeDriver manual: {chromedriver_path}")
+                service = Service(chromedriver_path)
+            else:
+                logger.warning("ChromeDriver manual no encontrado, usando WebDriver Manager")
+                service = Service(ChromeDriverManager().install())
+        else:
+            # En desarrollo (Windows/Mac), usar WebDriver Manager
+            logger.info("Usando WebDriver Manager para descargar ChromeDriver")
+            service = Service(ChromeDriverManager().install())
+
         driver = webdriver.Chrome(service=service, options=options)
 
         # Configurar timeouts
