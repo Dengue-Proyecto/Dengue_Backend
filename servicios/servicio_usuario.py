@@ -18,7 +18,6 @@ from utilidades import hash_password, crear_tokens, verificar_password
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
 def get_chrome_options():
     """
     Configura opciones de Chrome según el sistema operativo
@@ -40,6 +39,13 @@ def get_chrome_options():
     options.add_argument('--disable-sync')
     options.add_argument('--ignore-certificate-errors')
     options.add_argument('--ignore-ssl-errors')
+
+    # Crear directorio temporal único para cada sesión
+    import tempfile
+    import uuid
+    temp_dir = os.path.join(tempfile.gettempdir(), f'chrome_profile_{uuid.uuid4().hex[:8]}')
+    options.add_argument(f'--user-data-dir={temp_dir}')
+    logger.info(f"Usando directorio temporal: {temp_dir}")
 
     # Opciones específicas para Linux (EC2)
     if sistema == "Linux":

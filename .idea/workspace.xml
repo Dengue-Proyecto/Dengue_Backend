@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="arreglos para ws en ec2">
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Actualización para función de consulta con selenium y webscrap">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/servicios/servicio_usuario.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_usuario.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,23 +195,7 @@
       <workItem from="1759246552481" duration="9310000" />
       <workItem from="1759296963181" duration="1559000" />
       <workItem from="1759509950613" duration="14379000" />
-      <workItem from="1759552083953" duration="1515000" />
-    </task>
-    <task id="LOCAL-00002" summary="Modelo SVM + 4 kernels">
-      <option name="closed" value="true" />
-      <created>1746911955353</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1746911955353</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Modelo SVM + 4 kernels">
-      <option name="closed" value="true" />
-      <created>1746912126485</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1746912126485</updated>
+      <workItem from="1759552083953" duration="2644000" />
     </task>
     <task id="LOCAL-00004" summary="Modelo SVM + 4 kernels">
       <option name="closed" value="true" />
@@ -590,7 +573,23 @@
       <option name="project" value="LOCAL" />
       <updated>1759525995415</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Actualización para función de consulta con selenium y webscrap">
+      <option name="closed" value="true" />
+      <created>1759553871352</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1759553871352</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Actualización para función de consulta con selenium y webscrap">
+      <option name="closed" value="true" />
+      <created>1759554110416</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1759554110416</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -608,7 +607,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Modelo SVM 4 kernels Valoración" />
     <MESSAGE value="SVM + RF Valoracion y Probabilidad" />
     <MESSAGE value="METRICAS SVM + RF" />
     <MESSAGE value="Requeriments" />
@@ -633,7 +631,8 @@
     <MESSAGE value="Nuevo endpoint para busqueda de evaluación" />
     <MESSAGE value="CI" />
     <MESSAGE value="arreglos para ws en ec2" />
-    <option name="LAST_COMMIT_MESSAGE" value="arreglos para ws en ec2" />
+    <MESSAGE value="Actualización para función de consulta con selenium y webscrap" />
+    <option name="LAST_COMMIT_MESSAGE" value="Actualización para función de consulta con selenium y webscrap" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759553803550" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
