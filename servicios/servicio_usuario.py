@@ -31,14 +31,14 @@ def get_chrome_options():
     options.add_argument('--disable-dev-shm-usage')
 
     if sistema == "Linux":
-        # options.binary_location = '/usr/bin/google-chrome'
+        # Especificar la ubicación del binario de Chrome en Linux
+        options.binary_location = '/usr/bin/google-chrome'
         logger.info("Configuración para Linux aplicada")
 
     user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
     options.add_argument(f'user-agent={user_agent}')
 
     return options, user_agent
-
 
 def consulta_cmp(cmp_num: str):
     """
@@ -59,6 +59,9 @@ def consulta_cmp(cmp_num: str):
         if sistema == "Linux":
             # En producción (EC2), usar ChromeDriver instalado manualmente
             chromedriver_path = '/usr/local/bin/chromedriver'
+            if not os.path.exists('/usr/bin/google-chrome'):
+                raise HTTPException(status_code=500, detail="Google Chrome no está instalado en el servidor")
+            driver = uc.Chrome(options=options, driver_executable_path=chromedriver_path, version_main=141,headless=True)
         else:
             # En desarrollo (Windows/Mac), usar WebDriver Manager
             logger.info("Usando WebDriver Manager para descargar ChromeDriver")
@@ -68,7 +71,7 @@ def consulta_cmp(cmp_num: str):
         options.add_argument(f'--user-data-dir={temp_profile}')
         logger.info(f"Directorio temporal Chrome: {temp_profile}")
 
-        driver = uc.Chrome(options=options, version_main=141, headless=True)
+        #driver = uc.Chrome(options=options, version_main=141, headless=True)
 
         # Configurar timeouts
         driver.set_page_load_timeout(30)

@@ -19,3 +19,4 @@ pytest-asyncio
 python-multipart
 selenium
 webdriver-manager
+undetected_chromedriver
