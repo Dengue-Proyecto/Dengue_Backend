@@ -2,6 +2,7 @@ from .utilidades import get_modelo
 from .utilidades import get_metricas
 from .utilidades import get_preprocesadores
 from .utilidades import generar_codigo_evaluacion
+from .utilidades import generar_codigo_evaluacion_unico
 
 from .token import hash_password
 from .token import verificar_password

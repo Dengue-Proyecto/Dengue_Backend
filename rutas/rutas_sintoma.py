@@ -2,11 +2,10 @@ from datetime import datetime, UTC, timezone
 from fastapi import APIRouter, Depends, HTTPException
 from servicios import calcular_riesgo
 from modelo import FormularioSintomas, ActualizarDiagnostico
-from utilidades import obtener_usuario_actual, generar_codigo_evaluacion
+from utilidades import obtener_usuario_actual, generar_codigo_evaluacion_unico
 from db import Evaluacion, EvaluacionSintoma, Sintoma
 
 router = APIRouter()
-
 
 @router.post("/evaluar_riesgo")
 async def evaluar_riesgo(
@@ -55,7 +54,7 @@ async def evaluar_riesgo(
     if sintomas.tiempo_evaluacion is not None:
         tiempo_evaluacion_dt = datetime.fromtimestamp(sintomas.tiempo_evaluacion / 1000, tz=timezone.utc)
 
-    codigo_evaluacion = generar_codigo_evaluacion()
+    codigo_evaluacion = await generar_codigo_evaluacion_unico()
 
     # Guardar en BD - usar fecha_utc como fallback si tiempo_inicial_dt o tiempo_final_dt son None
     evaluacion = await Evaluacion.create(
@@ -139,7 +138,7 @@ async def evaluar_riesgo_simple(
     if sintomas.tiempo_evaluacion is not None:
         tiempo_evaluacion_dt = datetime.fromtimestamp(sintomas.tiempo_evaluacion / 1000, tz=timezone.utc)
 
-    codigo_evaluacion = generar_codigo_evaluacion()
+    codigo_evaluacion = await generar_codigo_evaluacion_unico()
 
     # Guardar en BD - usar fecha_utc como fallback si tiempo_inicial_dt o tiempo_final_dt son None
     evaluacion = await Evaluacion.create(

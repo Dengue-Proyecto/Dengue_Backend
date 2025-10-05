@@ -1,5 +1,5 @@
-import uuid
-from datetime import datetime
+import random
+import string
 from pathlib import Path
 import json
 import joblib
@@ -49,7 +49,28 @@ def get_metricas():
 
 #Función para generar código único de evaluación
 def generar_codigo_evaluacion() -> str:
-    """Genera un código único de 8 caracteres para seguimiento de evaluación"""
-    timestamp = str(int(datetime.now().timestamp()))[-4:]
-    unique_part = str(uuid.uuid4()).replace('-', '').upper()[:4]
-    return f"{timestamp}{unique_part}"
+    """Genera un código con formato RDD-XXX donde XXX contiene al menos 2 números"""
+
+    # Generar al menos 2 números
+    numeros = random.choices(string.digits, k=2)
+
+    # El tercer carácter puede ser número o letra
+    tercer_caracter = random.choice(string.digits + string.ascii_uppercase)
+
+    # Combinar y mezclar aleatoriamente
+    caracteres = numeros + [tercer_caracter]
+    random.shuffle(caracteres)
+
+    codigo_final = ''.join(caracteres)
+    return f"RDD-{codigo_final}"
+
+async def generar_codigo_evaluacion_unico() -> str:
+    """Genera código único verificando que no exista en BD"""
+
+    from db import Evaluacion
+
+    while True:
+        codigo = generar_codigo_evaluacion()
+        existe = await Evaluacion.filter(codigo_evaluacion=codigo).exists()
+        if not existe:
+            return codigo
