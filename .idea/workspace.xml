@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Actualización para función de consulta con selenium y webscrap">
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Actualización de la generación de codigo de evaluaación, ahora es mas corta (3 caracteres)">
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/evaluacion.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/evaluacion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rutas/rutas_sintoma.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/rutas_sintoma.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilidades/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utilidades/utilidades.py" beforeDir="false" afterPath="$PROJECT_DIR$/utilidades/utilidades.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,15 +197,10 @@
       <workItem from="1759509950613" duration="14379000" />
       <workItem from="1759552083953" duration="9673000" />
       <workItem from="1759609749498" duration="7031000" />
-      <workItem from="1759687561655" duration="1644000" />
-    </task>
-    <task id="LOCAL-00016" summary="CI Github">
-      <option name="closed" value="true" />
-      <created>1747807223426</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1747807223426</updated>
+      <workItem from="1759687561655" duration="3018000" />
+      <workItem from="1759721931341" duration="1397000" />
+      <workItem from="1759724622616" duration="15000" />
+      <workItem from="1759741527425" duration="655000" />
     </task>
     <task id="LOCAL-00017" summary="CI Github">
       <option name="closed" value="true" />
@@ -595,7 +586,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759561787347</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Actualización de la generación de codigo de evaluaación, ahora es mas corta (3 caracteres)">
+      <option name="closed" value="true" />
+      <created>1759689241906</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1759689241906</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -613,7 +612,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="SVM + RF Valoracion y Probabilidad" />
     <MESSAGE value="METRICAS SVM + RF" />
     <MESSAGE value="Requeriments" />
     <MESSAGE value="actualizacion de rutas" />
@@ -638,9 +636,10 @@
     <MESSAGE value="CI" />
     <MESSAGE value="arreglos para ws en ec2" />
     <MESSAGE value="Actualización para función de consulta con selenium y webscrap" />
-    <option name="LAST_COMMIT_MESSAGE" value="Actualización para función de consulta con selenium y webscrap" />
+    <MESSAGE value="Actualización de la generación de codigo de evaluaación, ahora es mas corta (3 caracteres)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Actualización de la generación de codigo de evaluaación, ahora es mas corta (3 caracteres)" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759687568236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759741537381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>
