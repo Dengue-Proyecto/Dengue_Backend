@@ -116,3 +116,12 @@ Los resultados se clasifican en:
 La aplicación está configurada para trabajar con:
 - **Frontend Angular** en `localhost:4200`
 - **Producción** en `https://riesgodengue.netlify.app`
+
+## 🏥 Sobre el Proyecto
+
+Este proyecto forma parte de una iniciativa para combatir el dengue mediante técnicas de Machine Learning, proporcionando herramientas digitales para el monitoreo y análisis de datos epidemiológicos que apoyen las decisiones en salud pública.
+
+<div align="center">
+  <br><br>
+  <i>Desarrollado con ❤️ por Angelo Sánchez y Mabel León</i>
+</div>
