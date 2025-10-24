@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="Actualización de la generación de codigo de evaluaación, ahora es mas corta (3 caracteres)">
+    <list default="true" id="2bcfc3fd-2ce5-457e-9628-e56f781efdd1" name="Changes" comment="CI">
+      <change afterPath="$PROJECT_DIR$/aerich_config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/ci.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/ci.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/evaluacion.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/evaluacion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rutas/rutas_sintoma.py" beforeDir="false" afterPath="$PROJECT_DIR$/rutas/rutas_sintoma.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/servicios/servicio_riesgo.py" beforeDir="false" afterPath="$PROJECT_DIR$/servicios/servicio_riesgo.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,8 +109,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-9c94529fcfe0-JavaScript-PY-252.26199.168" />
-        <option value="bundled-python-sdk-b3d66beaba9a-c6efb3732140-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.26199.168" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-PY-252.27397.106" />
+        <option value="bundled-python-sdk-4e2b1448bda8-9a97661f3031-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.27397.106" />
       </set>
     </attachedChunks>
   </component>
@@ -201,6 +208,8 @@
       <workItem from="1759721931341" duration="1397000" />
       <workItem from="1759724622616" duration="15000" />
       <workItem from="1759741527425" duration="655000" />
+      <workItem from="1761315567645" duration="812000" />
+      <workItem from="1761316711867" duration="7552000" />
     </task>
     <task id="LOCAL-00017" summary="CI Github">
       <option name="closed" value="true" />
@@ -640,6 +649,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Actualización de la generación de codigo de evaluaación, ahora es mas corta (3 caracteres)" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1759741537381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Dengue_Backend$Dengue_Backend.coverage" NAME="Dengue_Backend Coverage Results" MODIFIED="1761316987531" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
 </project>

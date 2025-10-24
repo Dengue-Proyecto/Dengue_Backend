@@ -20,3 +20,4 @@ python-multipart
 selenium
 webdriver-manager
 undetected_chromedriver
+aerich

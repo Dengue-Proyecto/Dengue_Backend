@@ -21,6 +21,8 @@ async def evaluar_riesgo(
     # Extraer la probabilidad calculada
     probabilidad_riesgo = resultados.get("probabilidad_random_forest")
 
+    precision_prediccion = resultados.get("precision_prediccion")
+
     # Convertir la probabilidad a la clasificación correspondiente
     def convertir_riesgo(prob):
         if prob < 0.4:
@@ -62,6 +64,7 @@ async def evaluar_riesgo(
         codigo_evaluacion=codigo_evaluacion,
         riesgo=riesgo,
         probabilidad=probabilidad_riesgo,
+        precision_prediccion=precision_prediccion,
         tiempo_inicial=tiempo_inicial_dt or fecha_utc,
         tiempo_final=tiempo_final_dt or fecha_utc,
         fecha=fecha_utc
@@ -88,6 +91,7 @@ async def evaluar_riesgo_simple(
 
     # Extraer la probabilidad calculada
     probabilidad_riesgo = resultados.get("probabilidad_random_forest")
+    precision_prediccion = resultados.get("precision_prediccion")
 
     # Convertir la probabilidad a la clasificación correspondiente
     def convertir_riesgo(prob):
@@ -146,6 +150,7 @@ async def evaluar_riesgo_simple(
         codigo_evaluacion=codigo_evaluacion,
         riesgo=riesgo,
         probabilidad=probabilidad_riesgo,
+        precision_prediccion=precision_prediccion,
         tiempo_inicial=tiempo_inicial_dt or fecha_utc,
         tiempo_final=tiempo_final_dt or fecha_utc,
         fecha=fecha_utc
@@ -158,6 +163,7 @@ async def evaluar_riesgo_simple(
     return {
         "riesgo_random_forest": resultados.get("riesgo_random_forest"),
         "probabilidad_random_forest_pct": resultados.get("probabilidad_random_forest_pct"),
+        "precision_prediccion": precision_prediccion,
         "codigo_evaluacion": codigo_evaluacion,
         "sintomas_identificados": sintomas_identificados,
         "fecha_evaluacion": fecha_utc.isoformat()

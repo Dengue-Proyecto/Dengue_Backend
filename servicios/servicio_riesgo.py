@@ -65,6 +65,10 @@ def calcular_riesgo(sintomas: FormularioSintomas, usar_gemini: bool = True):
     probabilidad_random_forest = float(modelo["random_forest"].predict_proba(df_pca)[0][1])
     probabilidad_xgboost = float(modelo["xgboost"].predict_proba(df_pca)[0][1])
 
+    # Obtener probabilidades completas para calcular precisión
+    probs_rf = modelo["random_forest"].predict_proba(df_pca)[0]
+    precision_prediccion = round(float(max(probs_rf)), 2)
+
     # Función MODIFICADA para convertir la probabilidad a clasificación de riesgo (solo bajo o alto)
     def convertir_riesgo(prob):
         if prob < 0.4:
@@ -122,6 +126,7 @@ def calcular_riesgo(sintomas: FormularioSintomas, usar_gemini: bool = True):
         "probabilidad_random_forest_pct": probabilidad_random_forest_pct,
         "probabilidad_xgboost_pct": probabilidad_xgboost_pct,
         "probabilidad_random_forest": probabilidad_random_forest,
+        "precision_prediccion": precision_prediccion,
         "metricas": metricas_pct,
         "precision_promedio": precision_promedio,
         "recall_promedio": recall_promedio,

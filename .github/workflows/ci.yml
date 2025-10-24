@@ -49,6 +49,9 @@ jobs:
 
             # Instalar dependencias
             pip install -r requirements.txt
+            
+            aerich upgrade
+            
             if screen -list | grep -q "\.dengue"; then
               echo "Screen 'dengue' existe, se cerrará..."
               screen -S dengue -X quit
